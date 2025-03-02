@@ -23,6 +23,7 @@ public class User {
 	private Long id;
 	private String name;
 	private String email;
+	private String password;
 	@ElementCollection
 	@CollectionTable(name="role_tab",joinColumns = @JoinColumn(name="id"))
 	@Column(name = "role")

@@ -27,12 +27,13 @@ public class SpecializationMgmtService implements ISpecializationMgmtService {
 
 	@Override
 	public Specialization getOneSpecialization(Long id) {
-		return specRepo.findById(id).orElseThrow(()->new SpecializationNotFoundException("Specialization not exit"));
+		return specRepo.findById(id)
+				                        .orElseThrow(()->new SpecializationNotFoundException("Specialization not exit"));
 	}
 
 	@Override
 	public void removeSpecialization(Long id) {
-		specRepo.deleteById(id);
+		specRepo.delete(getOneSpecialization(id));
 		
 	}
 
