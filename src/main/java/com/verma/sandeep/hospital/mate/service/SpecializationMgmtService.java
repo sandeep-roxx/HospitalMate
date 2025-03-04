@@ -1,6 +1,7 @@
 package com.verma.sandeep.hospital.mate.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.verma.sandeep.hospital.mate.entity.Specialization;
 import com.verma.sandeep.hospital.mate.exception.SpecializationNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.SpecializationRepository;
+import com.verma.sandeep.hospital.mate.util.MyCollectionUtil;
 
 @Service
 public class SpecializationMgmtService implements ISpecializationMgmtService {
@@ -41,6 +43,12 @@ public class SpecializationMgmtService implements ISpecializationMgmtService {
 	public void updateSpecialization(Specialization spec) {
 		specRepo.save(spec);
 		
+	}
+
+	@Override
+	public Map<Long, String> getSpecIdAndName() {
+		List<Object[]> list=specRepo.getSpecIdAndName();
+		return MyCollectionUtil.convertToMap(list);
 	}
 
 }

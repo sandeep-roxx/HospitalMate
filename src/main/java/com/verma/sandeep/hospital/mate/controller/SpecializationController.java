@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,14 @@ public class SpecializationController {
     private SpecializationExcelService excelService;
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> registerSpecialization(@Valid  @RequestBody Specialization spec){
+	public ResponseEntity<String> registerSpecialization(@Valid  @RequestBody Specialization spec,
+			                                                                                             Authentication authentication
+			                                                                                             )
+	{
+		//Get current username
+		String username=authentication.getName();
+		spec.setCreatedBy(username);
+		spec.setUpdatedBy(username);
 		Long id=specService.saveSpecialization(spec);
 		return new ResponseEntity<String>("Specialization "+id+" saved", HttpStatus.CREATED);
 	}
@@ -77,9 +85,26 @@ public class SpecializationController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<String> updateSpecialization(@Valid @RequestBody Specialization spec){
-		specService.updateSpecialization(spec);
-		return new ResponseEntity<String>("Specialization updated!", HttpStatus.OK);	
+	public ResponseEntity<String> updateSpecialization(@Valid @RequestBody Specialization spec,
+			                                                                                             Authentication authentication
+			                                                                                             )
+	{
+		//Get current username
+		String username=authentication.getName();
+		ResponseEntity<String> response=null;
+		
+		try {
+			//Fetch the existing record 
+			Specialization existingSpec=specService.getOneSpecialization(spec.getId());
+			// Preserve the 'createdBy' field from the existing record
+			spec.setCreatedBy(existingSpec.getCreatedBy());
+			spec.setUpdatedBy(username);
+			specService.updateSpecialization(spec);
+			response=new ResponseEntity<String>("Specialization updated!", HttpStatus.OK);	
+		}catch (SpecializationNotFoundException spece) {
+			throw spece;
+		}
+		return response;
 		
 	}
 

@@ -37,7 +37,7 @@ public class SpecializationExcelService {
         for (Specialization spec : specializations) {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(spec.getId());
-            row.createCell(1).setCellValue(spec.getName());
+            row.createCell(1).setCellValue(spec.getSpecName());
             row.createCell(2).setCellValue(spec.getSpecCode());
             row.createCell(3).setCellValue(spec.getDescription());
             row.createCell(4).setCellValue(spec.getCreatedBy());

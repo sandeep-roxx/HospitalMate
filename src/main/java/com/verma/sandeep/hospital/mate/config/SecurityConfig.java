@@ -54,7 +54,7 @@ public class SecurityConfig {
 		
 		http.csrf(csrf->csrf.disable())
 		        .authorizeHttpRequests(req->req
-		        		.requestMatchers("/spec/register","/user/register","/user/login").permitAll()
+		        		.requestMatchers("/user/register","/user/login").permitAll()
 		        		.anyRequest() .authenticated()
 		        )
 		        .exceptionHandling(ex -> ex //Register the Entry Point

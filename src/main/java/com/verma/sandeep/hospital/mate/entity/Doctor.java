@@ -10,34 +10,45 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+
 @Entity
-@Table(name="spec_tab")
+@Table(name="doctor_tab")
 @Data
-public class Specialization {
+public class Doctor {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="spec_id_col")
+	@Column(name = "doc_id_col")
 	private Long id;
 	
-	@NotBlank(message = "Specialization name is required")
-    @Size(min = 3, max = 50, message = "Specialization name must be between 3 and 50 characters")
-	@Column(name="spec_name_col")
-	private String specName;
+	@Column(name = "doc_fn_col")
+	private String firstName;
 	
-	@NotBlank(message = "Specialization code is required")
-    @Size(min = 2, max = 10, message = "Specialization code must be between 2 and 10 characters")
-	@Column(name="spec_code_col")
-	private String specCode;
+	@Column(name = "doc_ln_col")
+	private String lastName;
 	
-	@Size(max = 255, message = "Description should not exceed 255 characters")
-	@Column(name="spec_des_col")
-	private String description;
+	@Column(name = "doc_email_col")
+	private String email;
+	
+	@Column(name = "doc_addrs_col")
+	private String address;
+	
+	@Column(name = "doc_mob_col")
+	private String mobile;
+	
+	@Column(name = "doc_gen_col")
+	private String gender;
+	
+	@Column(name = "doc_note_col")
+	private String note;
+	
+	//@Column(name="doc_img_col")
+	//private String photoLoc;
 	
 	@Column(name = "created_by")
     private String createdBy;
@@ -52,5 +63,10 @@ public class Specialization {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+	
+	//----------------Association mapping--------
+	@ManyToOne
+	@JoinColumn(name="doc_id_fk_col")
+	private Specialization specialization;//has-a
 
 }

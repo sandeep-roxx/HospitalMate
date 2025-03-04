@@ -24,7 +24,7 @@ public class JwtUtil {
                 .setSubject(username)  // Set username as subject
                 .setIssuer("Sandeep-Verma")
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Set issued date
-                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5))) // Expiration time
+                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(15))) // Expiration time
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()),SignatureAlgorithm.HS256) // Sign with key
                 .compact();
 	}

@@ -1,7 +1,7 @@
 package com.verma.sandeep.hospital.mate.service;
 
+import java.util.Collections;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,10 +38,7 @@ public class UserMgmtServiceImpl implements IUserMgmtService,UserDetailsService 
 		User user=findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("User not exist"));
 		return new org.springframework.security.core.userdetails.User(email,
 				                                                                                                                   user.getPassword(),
-				                                                                                                                    user.getRoles()
-				                                                                                                                            .stream()
-				                                                                                                                            .map(role->new SimpleGrantedAuthority(role))
-				                                                                                                                            .collect(Collectors.toList())
+				                                                                                                                   Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
 				                                                                                                                    );
 	}
 
