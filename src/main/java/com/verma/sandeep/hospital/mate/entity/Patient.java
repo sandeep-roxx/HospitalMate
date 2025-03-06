@@ -42,8 +42,8 @@ public class Patient {
 	@Column(name = "pat_phone_col")
 	private String mobile;
 	
-	@Column(name = "pat_mail_col")
-	private String mail;
+	@Column(name = "pat_email_col")
+	private String email;
 	
 	@Column(name = "pat_dob_col")
 	@DateTimeFormat(iso = ISO.DATE)
