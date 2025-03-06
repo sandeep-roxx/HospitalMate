@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.bind.UserRequest;
 import com.verma.sandeep.hospital.mate.bind.UserResponse;
-import com.verma.sandeep.hospital.mate.entity.User;
 import com.verma.sandeep.hospital.mate.service.IUserMgmtService;
 import com.verma.sandeep.hospital.mate.util.JwtUtil;
 
@@ -27,11 +26,6 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtUtil;
 	
-	@PostMapping("/register")
-	public ResponseEntity<String> register(@RequestBody User user){
-		Long id=userService.saveUser(user);
-		return new ResponseEntity<String>("User "+id+" saved", HttpStatus.CREATED);
-	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<UserResponse> login(@RequestBody UserRequest request){

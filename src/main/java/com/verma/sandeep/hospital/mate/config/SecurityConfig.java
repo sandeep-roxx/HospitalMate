@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.verma.sandeep.hospital.mate.constant.UserRole;
 import com.verma.sandeep.hospital.mate.filter.SecurityFilter;
 
 import lombok.SneakyThrows;
@@ -54,7 +55,13 @@ public class SecurityConfig {
 		
 		http.csrf(csrf->csrf.disable())
 		        .authorizeHttpRequests(req->req
-		        		.requestMatchers("/user/register","/user/login").permitAll()
+		        		.requestMatchers("/patient/register","/user/login").permitAll()
+		        		.requestMatchers("/patient/all").hasAuthority(UserRole.ADMIN.name())
+		        		.requestMatchers("/spec/**").hasAuthority(UserRole.ADMIN.name())
+		        		.requestMatchers("/doctor/**").hasAuthority(UserRole.ADMIN.name())
+		        		.requestMatchers("/appointment/register","/appointment/update","/appointment/all").hasAuthority(UserRole.ADMIN.name())
+		        		.requestMatchers("/patient/update","/patient/find").hasAuthority(UserRole.PATIENT.name())
+		        		.requestMatchers("/doctor/update","/doctor/find").hasAuthority(UserRole.DOCTOR.name())
 		        		.anyRequest() .authenticated()
 		        )
 		        .exceptionHandling(ex -> ex //Register the Entry Point

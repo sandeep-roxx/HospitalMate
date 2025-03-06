@@ -6,20 +6,39 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.verma.sandeep.hospital.mate.constant.UserRole;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
+import com.verma.sandeep.hospital.mate.entity.User;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.DoctorRepository;
 import com.verma.sandeep.hospital.mate.util.MyCollectionUtil;
+import com.verma.sandeep.hospital.mate.util.PasswordGeneratorUtil;
 
 @Service
 public class DoctorServiceImpl implements IDoctorService {
 	
 	@Autowired
 	private DoctorRepository docRepo;
+	
+	@Autowired
+	private IUserMgmtService userService;
+	
+	@Autowired
+	private PasswordGeneratorUtil passwordGenerator;
 
 	@Override
 	public Long saveDoctor(Doctor doc) {
-		return docRepo.save(doc).getId();
+		Long id=docRepo.save(doc).getId();
+		if(id!=null) {
+			User user=new User();
+			user.setName(doc.getFirstName()+" "+doc.getLastName());
+			user.setEmail(doc.getEmail());
+			user.setPassword(passwordGenerator.generatePassword());
+			user.setRole(UserRole.DOCTOR.name());
+			userService.saveUser(user);
+			//TODO : Email is pending
+		}
+		return id;
 	}
 
 	@Override
