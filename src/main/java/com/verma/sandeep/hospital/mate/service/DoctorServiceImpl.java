@@ -72,14 +72,22 @@ public class DoctorServiceImpl implements IDoctorService {
 
 	@Override
 	public List<Doctor> findDoctorBySpecId(Long specId) {
-		// TODO Auto-generated method stub
-		return null;
+		return docRepo.findDoctorBySpecId(specId);
 	}
 
 	@Override
 	public Long getDoctorCount() {
-		// TODO Auto-generated method stub
-		return null;
+		return docRepo.count();
+	}
+
+	@Override
+	public List<Doctor> findDoctorBySpecIdAndDoctorId(Long specId, Long doctorId) {
+		return docRepo.findDoctorBySpecIdAndDoctorId(specId, doctorId);
+	}
+
+	@Override
+	public List<Doctor> findDoctorById(Long doctorId) {
+		return docRepo.findDoctorById(doctorId);
 	}
 
 }

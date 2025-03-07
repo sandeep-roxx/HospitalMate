@@ -43,7 +43,7 @@ public class Appointment {
 	private Integer noOfSlots;
 	
 	@Column(name = "app_detail_col")
-	private String detail;
+	private String note;
 	
 	@Column(name = "app_amt_col")
 	private Double amt;

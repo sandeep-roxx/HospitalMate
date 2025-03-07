@@ -1,5 +1,6 @@
 package com.verma.sandeep.hospital.mate.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,13 +15,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.verma.sandeep.hospital.mate.bind.AppointmentResponse;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
+import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.service.IAppointmentService;
 import com.verma.sandeep.hospital.mate.service.IDoctorService;
+import com.verma.sandeep.hospital.mate.service.ISpecializationMgmtService;
 
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/appointment")
@@ -32,17 +36,27 @@ public class AppointmentController {
 	@Autowired
 	private IDoctorService docService;
 	
+	@Autowired
+	private ISpecializationMgmtService specService;
 	
-	@GetMapping("/dropdown")
+	
+	@GetMapping("/docotor/dropdown")
     public ResponseEntity<Map<Long, String>> getDoctorDropdown() {
 		Map<Long,String> DoctorMap=docService.getDoctorIdAndNames();
 		return new ResponseEntity<Map<Long,String>>(DoctorMap,HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/spec/dropdown")
+    public ResponseEntity<Map<Long, String>> getSpecializationDropdown() {
+		Map<Long,String> SpecMap=specService.getSpecIdAndName();
+		return new ResponseEntity<Map<Long,String>>(SpecMap,HttpStatus.OK);
+		
+	}
 
 	// Create an appointment
 	@PostMapping("/register")
-	public ResponseEntity<String> saveAppointment(@Valid @RequestBody Appointment appointment) {
+	public ResponseEntity<String> saveAppointment(@RequestBody Appointment appointment) {
 		Long id = appointmentService.saveAppointment(appointment);
 		return new ResponseEntity<>("Appointment with ID " + id + " created successfully!", HttpStatus.CREATED);
 	}
@@ -55,7 +69,7 @@ public class AppointmentController {
 	}
 
 	// Get appointment by ID
-	@GetMapping("/{id}")
+	@GetMapping("find/{id}")
 	public ResponseEntity<Appointment> getAppointment(@PathVariable Long id) {
 		Appointment appointment = appointmentService.getOneAppointment(id);
 		return new ResponseEntity<>(appointment, HttpStatus.OK);
@@ -63,7 +77,7 @@ public class AppointmentController {
 
 	// Update appointment
 	@PutMapping("/update")
-	public ResponseEntity<String> updateAppointment(@Valid @RequestBody Appointment appointment) {
+	public ResponseEntity<String> updateAppointment(@RequestBody Appointment appointment) {
 		appointmentService.updateAppointment(appointment);
 		return new ResponseEntity<>("Appointment updated successfully!", HttpStatus.OK);
 	}
@@ -74,13 +88,43 @@ public class AppointmentController {
 		appointmentService.remove(id);
 		return new ResponseEntity<>("Appointment with ID " + id + " deleted successfully!", HttpStatus.OK);
 	}
+	
+	// Fetch doctors based on specialization or doctor (or all doctors if no specialization is given) 
+	//To view the appointments 
+	 @GetMapping("/search")
+	    public ResponseEntity<List<Doctor>> searchDoctorsForVeiwAppointments(
+	    		@RequestParam(required = false) Long specId,
+	    		@RequestParam(required = false) Long doctorId
+	    		)
+	    {
+		 List<Doctor> doctors;
+	        if (specId != null && doctorId != null) {
+	            doctors = docService.findDoctorBySpecIdAndDoctorId(specId, doctorId);
+	        }
+	        else if(specId != null) {
+	        	doctors=docService.findDoctorBySpecId(specId);
+	        }
+	        else if (doctorId != null) {
+            doctors = docService.findDoctorById(doctorId);
+             } else {
+            doctors = docService.getAllDoctor();
+            }
+	        return ResponseEntity.ok(doctors);
+	    }
+	
+	 //View appointment slots of specific doctor
+	 @GetMapping("/view/slots/{doctorId}")
+	 public ResponseEntity<Map<String,Object>> viewSlots(@PathVariable Long doctorId){
+		 
+		 Map<String,Object> response=new HashMap<>();
+		 List<AppointmentResponse> appRespList = appointmentService.getAppointmentByDoctor(doctorId);
+		 String message="Showing result for "+docService.getOneDoctor(doctorId);
+		 response.put("appointment", appRespList);
+		 response.put("message", message);
+			return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+		 
+	 }
 
-	// Get appointments by Doctor ID
-	@GetMapping("/doctor/{docId}")
-	public ResponseEntity<List<Object[]>> getAppointmentsByDoctor(@PathVariable Long docId) {
-		List<Object[]> list = appointmentService.getAppointmentByDoctor(docId);
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
 
 	// Get appointments by Doctor Email
 	@GetMapping("/doctor/email/{email}")
