@@ -57,17 +57,24 @@ public class UserMgmtServiceImpl implements IUserMgmtService,UserDetailsService 
             return "Old password is incorrect";
         }
         
-        // Check if the new passwords match
-        if (!request.getNewPassword().equals(request.getReenterNewPassword())) {
-            return "New password and Re-enter password do not match";
-        }
-        
         // Encode and update the new password
         user.setPassword(encoder.encode(request.getNewPassword()));
         userRepo.save(user);
         // TODO : Email pending
 
         return "Password updated successfully!";
+	}
+
+	@Override
+	public void updatePassword(String email, String newPassword) {
+		Optional<User> userOpt=userRepo.findByEmail(email);
+		if(userOpt.isPresent()) {
+			User user=userOpt.get();
+			user.setPassword(encoder.encode(newPassword));
+			userRepo.save(user);
+		}
+		
+		
 	}
 
 }

@@ -10,5 +10,6 @@ public interface IUserMgmtService {
 	public Long saveUser(User user);
 	public Optional<User> findByEmail(String email);
 	public String updatePassword(PasswordUpdateRequest request);
+	public void updatePassword(String email, String newPassword);
 
 }

@@ -21,7 +21,5 @@ public class PasswordUpdateRequest {
     @NotBlank(message = "New password is required")
     private String newPassword;
     
-    @NotBlank(message = "Re-enter new password is required")
-    private String reenterNewPassword;
 
 }
