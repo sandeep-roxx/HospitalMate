@@ -6,10 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.verma.sandeep.hospital.mate.bind.PasswordUpdateRequest;
 import com.verma.sandeep.hospital.mate.bind.UserRequest;
 import com.verma.sandeep.hospital.mate.bind.UserResponse;
 import com.verma.sandeep.hospital.mate.service.IUserMgmtService;
@@ -38,5 +41,11 @@ public class UserController {
                                                                                                  HttpStatus.OK
                                                                                                );
 	}
+	
+	 @PutMapping("/update-password")
+	    public ResponseEntity<String> updatePassword(@RequestBody PasswordUpdateRequest request) {
+		 String response = userService.updatePassword(request);
+	        return ResponseEntity.ok(response);
+	 }
 
 }

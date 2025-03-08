@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.verma.sandeep.hospital.mate.bind.PasswordUpdateRequest;
 import com.verma.sandeep.hospital.mate.entity.User;
 import com.verma.sandeep.hospital.mate.repository.UserRepository;
 
@@ -36,10 +37,37 @@ public class UserMgmtServiceImpl implements IUserMgmtService,UserDetailsService 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user=findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("User not exist"));
-		return new org.springframework.security.core.userdetails.User(email,
-				                                                                                                                   user.getPassword(),
-				                                                                                                                   Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
-				                                                                                                                    );
+		return new org.springframework.security.core.userdetails.User(
+				email,
+				user.getPassword(),
+				Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
+				);
+	}
+
+	@Override
+	public String updatePassword(PasswordUpdateRequest request) {
+		
+		User user = userRepo.findByEmail(request.getEmail()).orElse(null);
+        if (user == null) {
+            return "User not found";
+        }
+        
+       // Check if the old password is correct
+        if (!encoder.matches(request.getOldPassword(), user.getPassword())) {
+            return "Old password is incorrect";
+        }
+        
+        // Check if the new passwords match
+        if (!request.getNewPassword().equals(request.getReenterNewPassword())) {
+            return "New password and Re-enter password do not match";
+        }
+        
+        // Encode and update the new password
+        user.setPassword(encoder.encode(request.getNewPassword()));
+        userRepo.save(user);
+        // TODO : Email pending
+
+        return "Password updated successfully!";
 	}
 
 }

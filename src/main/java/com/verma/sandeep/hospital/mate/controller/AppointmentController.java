@@ -125,7 +125,6 @@ public class AppointmentController {
 		 
 	 }
 
-
 	// Get appointments by Doctor Email
 	@GetMapping("/doctor/email/{email}")
 	public ResponseEntity<List<Object[]>> getAppointmentsByDoctorEmail(@PathVariable String email) {

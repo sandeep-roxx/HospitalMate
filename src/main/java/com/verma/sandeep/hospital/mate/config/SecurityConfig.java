@@ -60,8 +60,7 @@ public class SecurityConfig {
 		        		.requestMatchers("/spec/**").hasAuthority(UserRole.ADMIN.name())
 		        		.requestMatchers("/doctor/**").hasAuthority(UserRole.ADMIN.name())
 		        		.requestMatchers("/appointment/register","/appointment/update","/appointment/all").hasAuthority(UserRole.ADMIN.name())
-		        		.requestMatchers("/patient/update","/patient/find").hasAuthority(UserRole.PATIENT.name())
-		        		.requestMatchers("/doctor/update","/doctor/find").hasAuthority(UserRole.DOCTOR.name())
+		        		.requestMatchers("/appointment/search","/appointment/view/slots").hasAuthority(UserRole.PATIENT.name())
 		        		.anyRequest() .authenticated()
 		        )
 		        .exceptionHandling(ex -> ex //Register the Entry Point
