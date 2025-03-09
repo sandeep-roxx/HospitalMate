@@ -11,5 +11,6 @@ public interface IUserMgmtService {
 	public Optional<User> findByEmail(String email);
 	public String updatePassword(PasswordUpdateRequest request);
 	public void updatePassword(String email, String newPassword);
+	public User getUserProfile(String email);
 
 }

@@ -13,7 +13,7 @@ import com.verma.sandeep.hospital.mate.entity.Appointment;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 	
-	@Query("SELECT new com.verma.sandeep.hospital.mate.bind.AppointmentResponse(aptm.id,aptm.date, aptm.noOfSlots, aptm.amt,aptm.note) FROM Appointment aptm INNER JOIN aptm.doctor as doctor WHERE doctor.id=:docId")
+	@Query("SELECT new com.verma.sandeep.hospital.mate.bind.AppointmentResponse(aptm.date, aptm.noOfSlots, aptm.amt,aptm.note) FROM Appointment aptm INNER JOIN aptm.doctor as doctor WHERE doctor.id=:docId")
 	List<AppointmentResponse> getAppointmentByDoctor(Long docId);
 
 }

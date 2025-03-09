@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.verma.sandeep.hospital.mate.bind.PasswordUpdateRequest;
 import com.verma.sandeep.hospital.mate.entity.User;
+import com.verma.sandeep.hospital.mate.exception.UserNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.UserRepository;
 
 @Service
@@ -72,9 +73,13 @@ public class UserMgmtServiceImpl implements IUserMgmtService,UserDetailsService 
 			User user=userOpt.get();
 			user.setPassword(encoder.encode(newPassword));
 			userRepo.save(user);
-		}
-		
-		
+		}	
+	}
+
+	@Override
+	public User getUserProfile(String email) {
+		return userRepo.findByEmail(email)
+				                         .orElseThrow(()->new UserNotFoundException("User not found"));
 	}
 
 }

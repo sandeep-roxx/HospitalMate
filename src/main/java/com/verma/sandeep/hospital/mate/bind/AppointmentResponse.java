@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AppointmentResponse {
 
-    private Long id;
     private Date date;
     private int noOfSlots;
     private double amt;
