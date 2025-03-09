@@ -1,5 +1,6 @@
 package com.verma.sandeep.hospital.mate.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,11 +126,16 @@ public class AppointmentController {
 		 
 	 }
 
-	// Get appointments by Doctor Email
-	@GetMapping("/doctor/email/{email}")
-	public ResponseEntity<List<Object[]>> getAppointmentsByDoctorEmail(@PathVariable String email) {
-		List<Object[]> list = appointmentService.getAppoinmentsByDoctorEmail(email);
-		return new ResponseEntity<>(list, HttpStatus.OK);
+	// Fetch appointments for the logged-in doctor
+	@GetMapping("/doctor/email")
+	public ResponseEntity<List<AppointmentResponse>> getAppointmentsByDoctorEmail(
+			                                                                  Principal principal
+			                                                                 )
+	{
+		//Get current login username(email)
+		String email=principal.getName();
+		List<AppointmentResponse> appointments = appointmentService.getAppoinmentsByDoctorEmail(email);
+		return new ResponseEntity<>(appointments, HttpStatus.OK);
 	}
 
 	// Update slot count for an appointment

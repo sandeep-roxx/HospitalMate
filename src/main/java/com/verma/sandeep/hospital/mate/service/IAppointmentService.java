@@ -13,7 +13,7 @@ public interface IAppointmentService {
 	public Appointment getOneAppointment(Long id);
 	public void updateAppointment(Appointment pat);
 	public List<AppointmentResponse> getAppointmentByDoctor(Long docId);
-	public List<Object[]> getAppoinmentsByDoctorEmail(String userName);
+	public List<AppointmentResponse> getAppoinmentsByDoctorEmail(String email);
 	public void updateSlotCountForAppointment(Long id,int count);
 	public Long getAppointmentCount();
 

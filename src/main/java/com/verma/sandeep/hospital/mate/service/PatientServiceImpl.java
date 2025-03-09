@@ -75,4 +75,5 @@ public class PatientServiceImpl implements IPatientService {
 		return patRepo.count();
 	}
 
+
 }

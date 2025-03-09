@@ -50,9 +50,8 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	}
 
 	@Override
-	public List<Object[]> getAppoinmentsByDoctorEmail(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AppointmentResponse> getAppoinmentsByDoctorEmail(String email) {
+		return appRepo.getAppoinmentsByDoctorEmail(email);
 	}
 
 	@Override
