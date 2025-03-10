@@ -123,7 +123,7 @@ public class SlotRequestController {
 	@GetMapping("/doctor/view-request")
 	public ResponseEntity<List<SlotRequest>> viewMyBookedSlots(Principal principal){
 		String email=principal.getName();
-		List<SlotRequest>slotRequestList = slotService.findAllBookedSlotsByDoctor(email);
+		List<SlotRequest>slotRequestList = slotService.findAllBookedSlotsByDoctor(email,SlotStatus.ACCEPTED.name());
 		return ResponseEntity.ok(slotRequestList);
 		
 	}

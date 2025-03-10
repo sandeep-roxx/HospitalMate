@@ -1,5 +1,6 @@
 package com.verma.sandeep.hospital.mate.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,13 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.service.IDoctorService;
 import com.verma.sandeep.hospital.mate.service.ISpecializationMgmtService;
+import com.verma.sandeep.hospital.mate.service.S3FileService;
 
 
 @RestController
@@ -31,18 +34,31 @@ public class DoctorController {
 	private IDoctorService docService;
 	@Autowired
 	private ISpecializationMgmtService specService;
+	@Autowired
+	private S3FileService s3FileService;
 	
 	@PostMapping("/register")
-    public ResponseEntity<String> registerDoctor(@RequestBody Doctor doctor,
-    		                                                                            Authentication authentication
-    		                                                                            ) 
+    public ResponseEntity<String> registerDoctor(
+    		@RequestPart("doctor") Doctor doctor,
+            @RequestPart("file") MultipartFile file,
+    		 Authentication authentication) 
 	{
-		//Get current username
+		//Get logged-in username
 		String username=authentication.getName();
 		doctor.setCreatedBy(username);
 		doctor.setUpdatedBy(username);
-        Long id = docService.saveDoctor(doctor);
-        return ResponseEntity.ok("Doctor saved with ID: " + id);
+		try {
+			
+			// Upload file to S3 and get the URL
+			 String fileUrl = s3FileService.uploadFile(file, "doctor-photos");
+			 doctor.setFileUrl(fileUrl);
+			 //save doctor details
+		     Long id = docService.saveDoctor(doctor);
+		     return new ResponseEntity<>("Doctor " + id + " registered successfully!", HttpStatus.CREATED);
+		     
+		  }catch (IOException ioe) {
+			 return ResponseEntity.status(500).body("File upload failed: " + ioe.getMessage()); 
+		  }
     }
 	
 	 @GetMapping("/all")

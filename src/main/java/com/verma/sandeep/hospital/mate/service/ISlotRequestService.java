@@ -12,6 +12,6 @@ public interface ISlotRequestService {
 	public List<SlotRequest> getAllSlotRequest();
 	public void updateSlotRequestStatus(Long id, String status);
 	 public List<SlotRequest> findSlotRequestsByPatientEmail(String email);
-	 public List<SlotRequest> findAllBookedSlotsByDoctor(String email);
+	 public List<SlotRequest> findAllBookedSlotsByDoctor(String email,String status);
 
 }

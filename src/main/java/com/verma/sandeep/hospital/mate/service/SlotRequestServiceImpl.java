@@ -52,8 +52,8 @@ public class SlotRequestServiceImpl implements ISlotRequestService {
 
 	//Logged-in doctor can view
 	@Override
-	public List<SlotRequest> findAllBookedSlotsByDoctor(String email) {
-		return slotRequestRepo.findAllBookedSlotsByDoctor(email);
+	public List<SlotRequest> findAllBookedSlotsByDoctor(String email,String status) {
+		return slotRequestRepo.findAllBookedSlotsByDoctor(email,status);
 	}
 
 }
