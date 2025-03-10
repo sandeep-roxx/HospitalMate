@@ -2,6 +2,8 @@ package com.verma.sandeep.hospital.mate.service;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import com.verma.sandeep.hospital.mate.bind.AppointmentResponse;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 
@@ -14,7 +16,7 @@ public interface IAppointmentService {
 	public void updateAppointment(Appointment pat);
 	public List<AppointmentResponse> getAppointmentByDoctor(Long docId);
 	public List<AppointmentResponse> getAppoinmentsByDoctorEmail(String email);
-	public void updateSlotCountForAppointment(Long id,int count);
+	public void updateSlotCountForAppointment(Long apmtId,int count);
 	public Long getAppointmentCount();
 
 }

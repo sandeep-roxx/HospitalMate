@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
+import com.verma.sandeep.hospital.mate.exception.SlotRequestNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.SlotRequestRepository;
 
 import jakarta.transaction.Transactional;
@@ -21,6 +22,11 @@ public class SlotRequestServiceImpl implements ISlotRequestService {
 		slotRequestRepo.save(slot);
 		//TODO : Email
 
+	}
+	@Override
+	public SlotRequest getOneSlotRequest(Long slotRequestId) {
+		return slotRequestRepo.findById(slotRequestId)
+				                                      .orElseThrow(()->new SlotRequestNotFoundException("Slot not found"));
 	}
 
 	//Admin can accept or reject requested slot
@@ -42,6 +48,12 @@ public class SlotRequestServiceImpl implements ISlotRequestService {
 	@Override
 	public List<SlotRequest> getAllSlotRequest() {
 		return slotRequestRepo.findAll();
+	}
+
+	//Logged-in doctor can view
+	@Override
+	public List<SlotRequest> findAllBookedSlotsByDoctor(String email) {
+		return slotRequestRepo.findAllBookedSlotsByDoctor(email);
 	}
 
 }

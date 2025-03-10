@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -26,11 +27,11 @@ public class SlotRequest {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne
+	@ManyToOne
     @JoinColumn(name = "appointment_id_fk_col", nullable = false)
     private Appointment appointment;
 
-    @OneToOne
+	@ManyToOne
     @JoinColumn(name = "patient_id_fk_col", nullable = false)
     private Patient patient;
 

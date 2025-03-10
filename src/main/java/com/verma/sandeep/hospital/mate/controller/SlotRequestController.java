@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +31,7 @@ public class SlotRequestController {
 	@Autowired
 	private ISlotRequestService slotService;
 	
+	//Patient can book a slot per appointment
 	@GetMapping("/book/{apmtId}")
 	public ResponseEntity<String> bookSlot(@PathVariable Long apmtId,
 			                                                                       Principal principal
@@ -55,6 +55,7 @@ public class SlotRequestController {
 				
 	}
 	
+	// Admin can view all slots
 	@GetMapping("/all")
 	public ResponseEntity<List<SlotRequest>> viewAllSlotRequests(){
 		List<SlotRequest> slotList=slotService.getAllSlotRequest();
@@ -62,23 +63,54 @@ public class SlotRequestController {
 		
 	}
 	
+	//Admin can accept or reject the slot requests
 	@PutMapping("/update-status/{slotRequestId}")
 	public ResponseEntity<String> updateSlotStatus(
 	        @PathVariable Long slotRequestId,
 	        @RequestParam String status // Accepts only "ACCEPTED" or "REJECTED"
 	) {
 	    // Validate status input
-	    if (!status.equalsIgnoreCase("ACCEPTED") && !status.equalsIgnoreCase("REJECTED")) {
+	    if (!status.equalsIgnoreCase(SlotStatus.ACCEPTED.name()) && !status.equalsIgnoreCase(SlotStatus.REJECTED.name())) {
 	        return ResponseEntity.badRequest().body("Invalid status. Allowed values: ACCEPTED or REJECTED.");
 	    }
 
 	    // Call service to update status
 	    slotService.updateSlotRequestStatus(slotRequestId, status);
-
+	    SlotRequest sr = slotService.getOneSlotRequest(slotRequestId);
+	    //Update the slot count for a appointment
+	    if(sr.getStatus().equals(SlotStatus.ACCEPTED.name())) {
+	    	//Decrease the slot count
+	    	apmtService.updateSlotCountForAppointment(
+	    			                                                                                sr.getAppointment().getId(),
+	    			                                                                                Integer.valueOf(-1)
+	    			                                                                                  );
+	    }//if
+	    
 	    return ResponseEntity.ok("Slot request status updated to " + status);
 	}
 	
-	//Logged in patient can view his request
+	//Patient can cancel the slot request
+	@GetMapping("/cancel/slot-request/{slotRequestId}")
+	public ResponseEntity<String> cancelSlotRequest(
+			 @PathVariable Long slotRequestId
+			)
+	{
+		// Call service to update status
+	    slotService.updateSlotRequestStatus(slotRequestId, SlotStatus.CANCELLED.name());
+	    SlotRequest sr = slotService.getOneSlotRequest(slotRequestId);
+	    //Update the slot count for a appointment
+	    if(sr.getStatus().equals(SlotStatus.ACCEPTED.name())) {
+	    	//Increase slot count
+	    	apmtService.updateSlotCountForAppointment(
+	    			                                                                                sr.getAppointment().getId(),
+	    			                                                                                Integer.valueOf(1)
+	    			                                                                                  );
+	    }//if
+		return ResponseEntity.ok("Slot request cancelled successfully.");
+		
+	}
+	
+	//Logged-in patient can view his slot request
 	@GetMapping("/patient/view-request")
 	public ResponseEntity<List<SlotRequest>> viewMyRequests(Principal principal){
 		String email=principal.getName();
@@ -87,6 +119,13 @@ public class SlotRequestController {
 		
 	}
 	
-	//Logged-in doctor can view his slots
+	//Logged-in doctor can view his booked slots
+	@GetMapping("/doctor/view-request")
+	public ResponseEntity<List<SlotRequest>> viewMyBookedSlots(Principal principal){
+		String email=principal.getName();
+		List<SlotRequest>slotRequestList = slotService.findAllBookedSlotsByDoctor(email);
+		return ResponseEntity.ok(slotRequestList);
+		
+	}
 
 }

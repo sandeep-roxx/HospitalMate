@@ -28,7 +28,7 @@ public class AppointmentServiceImpl implements IAppointmentService {
 
 	@Override
 	public void remove(Long id) {
-		// TODO Auto-generated method stub
+		appRepo.delete(getOneAppointment(id));
 
 	}
 
@@ -56,14 +56,13 @@ public class AppointmentServiceImpl implements IAppointmentService {
 
 	@Override
 	public void updateSlotCountForAppointment(Long id, int count) {
-		// TODO Auto-generated method stub
+		appRepo.updateSlotCountForAppointment(id, count);
 
 	}
 
 	@Override
 	public Long getAppointmentCount() {
-		// TODO Auto-generated method stub
-		return null;
+		return appRepo.count();
 	}
 
 }
