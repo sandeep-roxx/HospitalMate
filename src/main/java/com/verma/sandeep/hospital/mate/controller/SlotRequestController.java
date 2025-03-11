@@ -114,8 +114,8 @@ public class SlotRequestController {
 	}
 	
 	//Logged-in patient can view his slot request
-	@GetMapping("/patient/view-request")
-	public ResponseEntity<List<SlotRequest>> viewMyRequests(Principal principal){
+	@GetMapping("/patient/my-slots")
+	public ResponseEntity<List<SlotRequest>> getMySlotRequests(Principal principal){
 		String email=principal.getName();
 		List<SlotRequest>slotRequestList = slotService.findSlotRequestsByPatientEmail(email);
 		return ResponseEntity.ok(slotRequestList);
@@ -123,7 +123,7 @@ public class SlotRequestController {
 	}
 	
 	//Logged-in doctor can view his booked slots
-	@GetMapping("/doctor/view-request")
+	@GetMapping("/doctor/my-slots")
 	public ResponseEntity<List<SlotRequest>> viewMyBookedSlots(Principal principal){
 		String email=principal.getName();
 		List<SlotRequest>slotRequestList = slotService.findAllBookedSlotsByDoctor(email,SlotStatus.ACCEPTED.name());

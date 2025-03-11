@@ -3,6 +3,8 @@ package com.verma.sandeep.hospital.mate.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.verma.sandeep.hospital.mate.constant.UserRole;
@@ -36,10 +38,16 @@ public class PatientServiceImpl implements IPatientService {
 		}
 		return id;
 	}
-
+   /*
 	@Override
 	public List<Patient> getAllPatients() {
 		return patRepo.findAll();
+	}
+	*/
+	
+	public Page<Patient> getAllPatients(Pageable pageable){
+		return patRepo.findAll(pageable);
+		
 	}
 
 	@Override

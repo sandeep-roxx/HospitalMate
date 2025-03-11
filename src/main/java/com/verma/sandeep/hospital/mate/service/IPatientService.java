@@ -2,12 +2,16 @@ package com.verma.sandeep.hospital.mate.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.verma.sandeep.hospital.mate.entity.Patient;
 
 public interface IPatientService {
 	
 	public Long savePatient(Patient pat);
-	public List<Patient> getAllPatients();
+	//public List<Patient> getAllPatients();
+	public Page<Patient> getAllPatients(Pageable pageable);
 	public void remove(Long id);
 	public Patient getOnePatient(Long id);
 	public void updatePatient(Patient pat);
