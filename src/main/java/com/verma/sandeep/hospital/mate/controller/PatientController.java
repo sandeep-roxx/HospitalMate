@@ -30,8 +30,14 @@ public class PatientController {
 	
 	@PostMapping("/register")
     public ResponseEntity<String> registerPatient(@Valid @RequestBody Patient patient) {
-        Long id = patientService.savePatient(patient);
-        return new ResponseEntity<>("Patient " + id + " saved", HttpStatus.CREATED);
+		ResponseEntity<String> response=null;
+		try {
+			 Long id = patientService.savePatient(patient);
+		     response=new ResponseEntity<String>("Patient " + id + " saved", HttpStatus.CREATED);
+		}catch (Exception e) {
+			throw e;
+		}
+		return response;
     }
 
     @GetMapping("/all")

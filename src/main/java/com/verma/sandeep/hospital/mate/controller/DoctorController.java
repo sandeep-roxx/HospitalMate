@@ -41,12 +41,13 @@ public class DoctorController {
     public ResponseEntity<String> registerDoctor(
     		@RequestPart("doctor") Doctor doctor,
             @RequestPart("file") MultipartFile file,
-    		 Authentication authentication) 
+    		 Authentication authentication) throws IOException 
 	{
 		//Get logged-in username
 		String username=authentication.getName();
 		doctor.setCreatedBy(username);
 		doctor.setUpdatedBy(username);
+		ResponseEntity<String> response=null;
 		try {
 			
 			// Upload file to S3 and get the URL
@@ -54,11 +55,14 @@ public class DoctorController {
 			 doctor.setFileUrl(fileUrl);
 			 //save doctor details
 		     Long id = docService.saveDoctor(doctor);
-		     return new ResponseEntity<>("Doctor " + id + " registered successfully!", HttpStatus.CREATED);
+		     response=new ResponseEntity<String>("Doctor " + id + " registered successfully!", HttpStatus.CREATED);
 		     
 		  }catch (IOException ioe) {
-			 return ResponseEntity.status(500).body("File upload failed: " + ioe.getMessage()); 
+			  throw ioe;
+		  }catch (Exception e) {
+			  throw e;
 		  }
+		return  response;
     }
 	
 	 @GetMapping("/all")

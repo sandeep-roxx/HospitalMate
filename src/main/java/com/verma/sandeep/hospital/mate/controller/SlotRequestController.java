@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,11 +48,13 @@ public class SlotRequestController {
 		slot.setPatient(patient);
 		slot.setStatus(SlotStatus.PENDING.name());
 		try {
+			
 			slotService.saveSlotRequest(slot);
-		}catch (Exception e) {
+			
+		}catch (DataIntegrityViolationException e) {
 			return ResponseEntity.ok("You have already booked this appointment");
 		}
-		return ResponseEntity.ok("You have  booked this appointment ");
+		return ResponseEntity.ok("Your appointment  booked successfully");
 				
 	}
 	

@@ -35,16 +35,23 @@ public class SpecializationController {
     private SpecializationExcelService excelService;
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> registerSpecialization(@Valid  @RequestBody Specialization spec,
-			                                                                                             Authentication authentication
-			                                                                                             )
+	public ResponseEntity<String> registerSpecialization(
+			@Valid  @RequestBody Specialization spec,
+			    Authentication authentication
+			    )
 	{
 		//Get current username
 		String username=authentication.getName();
 		spec.setCreatedBy(username);
 		spec.setUpdatedBy(username);
-		Long id=specService.saveSpecialization(spec);
-		return new ResponseEntity<String>("Specialization "+id+" saved", HttpStatus.CREATED);
+		ResponseEntity<String> response=null;
+		try {
+			Long id=specService.saveSpecialization(spec);
+			response=new ResponseEntity<String>("Specialization "+id+" saved", HttpStatus.CREATED);
+		}catch (Exception e) {
+			throw e;
+		}
+		return response;
 	}
 	
 	@GetMapping("/all")

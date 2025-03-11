@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.verma.sandeep.hospital.mate.bind.AppointmentResponse;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
+import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
 import com.verma.sandeep.hospital.mate.service.IAppointmentService;
 import com.verma.sandeep.hospital.mate.service.IDoctorService;
 import com.verma.sandeep.hospital.mate.service.ISpecializationMgmtService;
@@ -72,8 +73,14 @@ public class AppointmentController {
 	// Get appointment by ID
 	@GetMapping("find/{id}")
 	public ResponseEntity<Appointment> getAppointment(@PathVariable Long id) {
-		Appointment appointment = appointmentService.getOneAppointment(id);
-		return new ResponseEntity<>(appointment, HttpStatus.OK);
+		ResponseEntity<Appointment> response=null;
+		try {
+			Appointment appointment = appointmentService.getOneAppointment(id);
+			response=new ResponseEntity<Appointment>(appointment, HttpStatus.OK);
+		}catch (AppointmentNotFoundException e) {
+			throw e;
+		}
+		return response;
 	}
 
 	// Update appointment
