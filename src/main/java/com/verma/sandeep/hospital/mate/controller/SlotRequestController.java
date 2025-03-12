@@ -2,6 +2,7 @@ package com.verma.sandeep.hospital.mate.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.verma.sandeep.hospital.mate.constant.PaymentStatus;
 import com.verma.sandeep.hospital.mate.constant.SlotStatus;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
+import com.verma.sandeep.hospital.mate.payment.RazorpayService;
 import com.verma.sandeep.hospital.mate.service.IAppointmentService;
 import com.verma.sandeep.hospital.mate.service.IPatientService;
 import com.verma.sandeep.hospital.mate.service.ISlotRequestService;
@@ -28,9 +31,12 @@ public class SlotRequestController {
 	@Autowired
 	private IAppointmentService apmtService;
 	@Autowired
-	private IPatientService patientService;
+	private IPatientService patientService; 
 	@Autowired
 	private ISlotRequestService slotService;
+	
+	@Autowired
+	private RazorpayService razorpayService;
 	
 	//Patient can book a slot per appointment
 	@GetMapping("/book/{apmtId}")
@@ -47,6 +53,7 @@ public class SlotRequestController {
 		slot.setAppointment(aptm);
 		slot.setPatient(patient);
 		slot.setStatus(SlotStatus.PENDING.name());
+		slot.setPaymentStatus(PaymentStatus.PENDING.name());
 		try {
 			
 			slotService.saveSlotRequest(slot);
@@ -71,9 +78,13 @@ public class SlotRequestController {
 	public ResponseEntity<String> updateSlotStatus(
 	        @PathVariable Long slotRequestId,
 	        @RequestParam String status // Accepts only "ACCEPTED" or "REJECTED"
-	) {
+	)
+	{
 	    // Validate status input
-	    if (!status.equalsIgnoreCase(SlotStatus.ACCEPTED.name()) && !status.equalsIgnoreCase(SlotStatus.REJECTED.name())) {
+	    if (!status.equalsIgnoreCase(
+	    		SlotStatus.ACCEPTED.name()) && !status.equalsIgnoreCase(SlotStatus.REJECTED.name())
+	    		) 
+	    {
 	        return ResponseEntity.badRequest().body("Invalid status. Allowed values: ACCEPTED or REJECTED.");
 	    }
 
@@ -130,5 +141,16 @@ public class SlotRequestController {
 		return ResponseEntity.ok(slotRequestList);
 		
 	}
+	
+	//Patient can make payment after slot request accept 
+	 @GetMapping("/payment/{slotRequestId}")
+	    public ResponseEntity<Map<String, Object>> createOrder(@PathVariable Long slotRequestId) {
+	        try {
+	            Map<String, Object> orderResponse = razorpayService.createOrder(slotRequestId);
+	            return ResponseEntity.ok(orderResponse);
+	        } catch (Exception e) {
+	            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+	        }
+	    }
 
 }

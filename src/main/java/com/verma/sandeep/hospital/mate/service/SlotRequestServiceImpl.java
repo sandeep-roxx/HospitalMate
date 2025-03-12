@@ -1,6 +1,7 @@
 package com.verma.sandeep.hospital.mate.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,11 @@ public class SlotRequestServiceImpl implements ISlotRequestService {
 	@Override
 	public List<SlotRequest> findAllBookedSlotsByDoctor(String email,String status) {
 		return slotRequestRepo.findAllBookedSlotsByDoctor(email,status);
+	}
+	@Override
+	public Map<String, Object> createOrder(Long slotRequestId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
