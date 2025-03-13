@@ -15,7 +15,7 @@ import com.razorpay.RazorpayException;
 import com.verma.sandeep.hospital.mate.constant.PaymentStatus;
 import com.verma.sandeep.hospital.mate.entity.PaymentDetail;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
-import com.verma.sandeep.hospital.mate.service.IPaymentService;
+import com.verma.sandeep.hospital.mate.service.IPaymentDetailService;
 import com.verma.sandeep.hospital.mate.service.ISlotRequestService;
 
 @Service
@@ -24,7 +24,7 @@ public class RazorpayService {
 	@Autowired
 	private ISlotRequestService slotRequestService;
 	@Autowired
-	private IPaymentService pymntDetailService;
+	private IPaymentDetailService pymntDetailService;
 	
 	private final RazorpayClient razorpayClient;
 
