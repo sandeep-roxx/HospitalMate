@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.entity.Specialization;
 import com.verma.sandeep.hospital.mate.exception.SpecializationNotFoundException;
-import com.verma.sandeep.hospital.mate.service.ISpecializationMgmtService;
-import com.verma.sandeep.hospital.mate.service.SpecializationExcelService;
+import com.verma.sandeep.hospital.mate.service.impl.ISpecializationMgmtService;
+import com.verma.sandeep.hospital.mate.service.impl.SpecializationExcelService;
 
 import jakarta.validation.Valid;
 

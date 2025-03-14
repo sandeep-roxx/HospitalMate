@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
-import com.verma.sandeep.hospital.mate.service.IPatientService;
+import com.verma.sandeep.hospital.mate.service.impl.IPatientService;
 
 import jakarta.validation.Valid;
 

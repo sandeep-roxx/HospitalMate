@@ -1,10 +1,10 @@
-package com.verma.sandeep.hospital.mate.service;
+package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.util.List;
 
 import org.springframework.data.repository.query.Param;
 
-import com.verma.sandeep.hospital.mate.bind.AppointmentResponse;
+import com.verma.sandeep.hospital.mate.binding.AppointmentResponse;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 
 public interface IAppointmentService {

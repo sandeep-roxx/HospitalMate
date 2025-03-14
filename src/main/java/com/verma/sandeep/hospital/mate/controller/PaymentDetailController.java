@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.entity.PaymentDetail;
 import com.verma.sandeep.hospital.mate.exception.PaymentDetailNotFoundException;
-import com.verma.sandeep.hospital.mate.service.IPaymentDetailService;
+import com.verma.sandeep.hospital.mate.service.impl.IPaymentDetailService;
 
 import jakarta.servlet.http.HttpServletResponse;
 

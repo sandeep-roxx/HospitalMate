@@ -1,11 +1,11 @@
-package com.verma.sandeep.hospital.mate.service;
+package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.verma.sandeep.hospital.mate.bind.AppointmentResponse;
+import com.verma.sandeep.hospital.mate.binding.AppointmentResponse;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.AppointmentRepository;

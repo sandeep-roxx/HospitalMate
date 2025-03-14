@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.verma.sandeep.hospital.mate.bind.PasswordUpdateRequest;
-import com.verma.sandeep.hospital.mate.bind.UserRequest;
-import com.verma.sandeep.hospital.mate.bind.UserResponse;
+import com.verma.sandeep.hospital.mate.binding.PasswordUpdateRequest;
+import com.verma.sandeep.hospital.mate.binding.UserRequest;
+import com.verma.sandeep.hospital.mate.binding.UserResponse;
 import com.verma.sandeep.hospital.mate.entity.User;
-import com.verma.sandeep.hospital.mate.service.IUserMgmtService;
+import com.verma.sandeep.hospital.mate.service.impl.IUserMgmtService;
 import com.verma.sandeep.hospital.mate.util.JwtUtil;
 
 @RestController

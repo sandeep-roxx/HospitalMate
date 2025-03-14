@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.verma.sandeep.hospital.mate.bind.AppointmentResponse;
+import com.verma.sandeep.hospital.mate.binding.AppointmentResponse;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
-import com.verma.sandeep.hospital.mate.service.IAppointmentService;
-import com.verma.sandeep.hospital.mate.service.IDoctorService;
-import com.verma.sandeep.hospital.mate.service.ISpecializationMgmtService;
+import com.verma.sandeep.hospital.mate.service.impl.IAppointmentService;
+import com.verma.sandeep.hospital.mate.service.impl.IDoctorService;
+import com.verma.sandeep.hospital.mate.service.impl.ISpecializationMgmtService;
 
 
 @RestController

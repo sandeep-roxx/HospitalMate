@@ -1,4 +1,4 @@
-package com.verma.sandeep.hospital.mate.bind;
+package com.verma.sandeep.hospital.mate.binding;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

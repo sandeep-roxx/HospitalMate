@@ -20,9 +20,9 @@ import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
 import com.verma.sandeep.hospital.mate.payment.RazorpayService;
-import com.verma.sandeep.hospital.mate.service.IAppointmentService;
-import com.verma.sandeep.hospital.mate.service.IPatientService;
-import com.verma.sandeep.hospital.mate.service.ISlotRequestService;
+import com.verma.sandeep.hospital.mate.service.impl.IAppointmentService;
+import com.verma.sandeep.hospital.mate.service.impl.IPatientService;
+import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
 
 @RestController
 @RequestMapping("/slot")

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.entity.User;
-import com.verma.sandeep.hospital.mate.service.IPasswordResetTokenService;
-import com.verma.sandeep.hospital.mate.service.IUserMgmtService;
+import com.verma.sandeep.hospital.mate.service.impl.IPasswordResetTokenService;
+import com.verma.sandeep.hospital.mate.service.impl.IUserMgmtService;
 
 @RestController
 @RequestMapping("/user")

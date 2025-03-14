@@ -1,4 +1,4 @@
-package com.verma.sandeep.hospital.mate.service;
+package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

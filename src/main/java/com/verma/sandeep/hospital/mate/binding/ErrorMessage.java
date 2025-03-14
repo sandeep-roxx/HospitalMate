@@ -1,4 +1,4 @@
-package com.verma.sandeep.hospital.mate.bind;
+package com.verma.sandeep.hospital.mate.binding;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

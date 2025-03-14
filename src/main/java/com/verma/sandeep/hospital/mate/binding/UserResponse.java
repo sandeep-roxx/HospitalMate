@@ -1,4 +1,4 @@
-package com.verma.sandeep.hospital.mate.bind;
+package com.verma.sandeep.hospital.mate.binding;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequest {
+public class UserResponse {
 	
-	private String email;
-	private String password;
+	private String token;
+	private String message;
 
 }

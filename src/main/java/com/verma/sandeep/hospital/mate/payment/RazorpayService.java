@@ -15,8 +15,8 @@ import com.razorpay.RazorpayException;
 import com.verma.sandeep.hospital.mate.constant.PaymentStatus;
 import com.verma.sandeep.hospital.mate.entity.PaymentDetail;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
-import com.verma.sandeep.hospital.mate.service.IPaymentDetailService;
-import com.verma.sandeep.hospital.mate.service.ISlotRequestService;
+import com.verma.sandeep.hospital.mate.service.impl.IPaymentDetailService;
+import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
 
 @Service
 public class RazorpayService {
