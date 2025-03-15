@@ -82,6 +82,13 @@ public class PatientServiceImpl implements IPatientService {
 	public Long getPatientCount() {
 		return patRepo.count();
 	}
+	
+	//Search patient by email or number
+	@Override
+    public Patient searchPatientByEmailOrMobile(String query) {
+        return patRepo.findByEmailOrMobile(query, query)
+                .orElseThrow(() -> new PatientsNotFoundException("Patient not found with given email or mobile"));
+    }
 
 
 }

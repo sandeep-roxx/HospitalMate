@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.verma.sandeep.hospital.mate.binding.AppointmentResponse;
+import com.verma.sandeep.hospital.mate.dto.AppointmentDTO;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
@@ -125,7 +125,7 @@ public class AppointmentController {
 	 public ResponseEntity<Map<String,Object>> viewSlots(@PathVariable Long doctorId){
 		 
 		 Map<String,Object> response=new HashMap<>();
-		 List<AppointmentResponse> appRespList = appointmentService.getAppointmentByDoctor(doctorId);
+		 List<AppointmentDTO> appRespList = appointmentService.getAppointmentByDoctor(doctorId);
 		 String message="Showing result for "+docService.getOneDoctor(doctorId);
 		 response.put("appointment", appRespList);
 		 response.put("message", message);
@@ -135,13 +135,13 @@ public class AppointmentController {
 
 	// Fetch appointments for the logged-in doctor
 	@GetMapping("/doctor/email")
-	public ResponseEntity<List<AppointmentResponse>> getAppointmentsByDoctorEmail(
+	public ResponseEntity<List<AppointmentDTO>> getAppointmentsByDoctorEmail(
 			                                                                  Principal principal
 			                                                                 )
 	{
 		//Get current login username(email)
 		String email=principal.getName();
-		List<AppointmentResponse> appointments = appointmentService.getAppoinmentsByDoctorEmail(email);
+		List<AppointmentDTO> appointments = appointmentService.getAppoinmentsByDoctorEmail(email);
 		return new ResponseEntity<>(appointments, HttpStatus.OK);
 	}
 

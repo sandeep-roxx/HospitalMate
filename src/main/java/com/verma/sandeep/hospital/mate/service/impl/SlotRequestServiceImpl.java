@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.verma.sandeep.hospital.mate.dto.PatientDTO;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
 import com.verma.sandeep.hospital.mate.exception.SlotRequestNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.SlotRequestRepository;
@@ -60,6 +61,10 @@ public class SlotRequestServiceImpl implements ISlotRequestService {
 	public Map<String, Object> createOrder(Long slotRequestId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<PatientDTO> fetchPaidPatients() {
+		return slotRequestRepo.findPaidPatients();
 	}
 
 }

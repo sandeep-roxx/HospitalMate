@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.verma.sandeep.hospital.mate.constant.UserRole;
+import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.entity.User;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
@@ -88,6 +89,12 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public List<Doctor> findDoctorById(Long doctorId) {
 		return docRepo.findDoctorById(doctorId);
+	}
+
+	//Get doctor by id, name and specialization
+	@Override
+	public List<DoctorDTO> getAllDoctorsDTO() {
+		return docRepo.getAllDoctorsDTO();
 	}
 
 }

@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.verma.sandeep.hospital.mate.binding.PasswordUpdateRequest;
+import com.verma.sandeep.hospital.mate.dto.PasswordUpdateRequest;
 import com.verma.sandeep.hospital.mate.entity.User;
 import com.verma.sandeep.hospital.mate.exception.UserNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.UserRepository;

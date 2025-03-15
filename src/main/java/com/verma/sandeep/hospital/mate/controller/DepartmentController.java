@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.verma.sandeep.hospital.mate.binding.DepartmentResponse;
+import com.verma.sandeep.hospital.mate.dto.DepartmentDTO;
 import com.verma.sandeep.hospital.mate.entity.Department;
 import com.verma.sandeep.hospital.mate.iservice.DepartmentService;
 
@@ -55,7 +55,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/dropdown")
-    public ResponseEntity<List<DepartmentResponse>> getDepartmentsForDropdown() {
+    public ResponseEntity<List<DepartmentDTO>> getDepartmentsForDropdown() {
         return ResponseEntity.ok(departmentService.getDepartmentsResponse());
     }
 

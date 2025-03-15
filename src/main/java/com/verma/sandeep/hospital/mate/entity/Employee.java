@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -29,8 +29,8 @@ public class Employee {
     @Column(name = "Emp_Address")
     private String empAdd;
 
-    @OneToOne
-    @JoinColumn(name = "DEP_ID", referencedColumnName = "DEP_ID")
+    @ManyToOne
+    @JoinColumn(name = "DEP_ID", nullable = false)
     private Department department;
 
 

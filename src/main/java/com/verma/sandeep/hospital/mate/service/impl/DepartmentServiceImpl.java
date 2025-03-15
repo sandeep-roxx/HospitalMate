@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.verma.sandeep.hospital.mate.binding.DepartmentResponse;
+import com.verma.sandeep.hospital.mate.dto.DepartmentDTO;
 import com.verma.sandeep.hospital.mate.entity.Department;
 import com.verma.sandeep.hospital.mate.exception.DepartmentNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.DepartmentService;
@@ -51,7 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	
    //To implement Drop down
 	@Override
-	public List<DepartmentResponse> getDepartmentsResponse() {
+	public List<DepartmentDTO> getDepartmentsResponse() {
 		return deptRepo.getDepartmentsResponse();
 	}
 

@@ -17,5 +17,6 @@ public interface IPatientService {
 	public void updatePatient(Patient pat);
 	public Patient getOnePatient(String userName);
 	public Long getPatientCount();
+	public Patient searchPatientByEmailOrMobile(String query);
 
 }

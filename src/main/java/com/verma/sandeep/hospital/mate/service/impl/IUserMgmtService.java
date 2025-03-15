@@ -2,7 +2,7 @@ package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.util.Optional;
 
-import com.verma.sandeep.hospital.mate.binding.PasswordUpdateRequest;
+import com.verma.sandeep.hospital.mate.dto.PasswordUpdateRequest;
 import com.verma.sandeep.hospital.mate.entity.User;
 
 public interface IUserMgmtService {

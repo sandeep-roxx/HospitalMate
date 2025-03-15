@@ -12,5 +12,6 @@ import com.verma.sandeep.hospital.mate.entity.Patient;
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 	
 	public Optional<Patient> findByEmail(String email);
+	public Optional<Patient> findByEmailOrMobile(String email, String mobile);
 
 }

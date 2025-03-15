@@ -2,41 +2,48 @@ package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.verma.sandeep.hospital.mate.entity.Employee;
+import com.verma.sandeep.hospital.mate.exception.EmployeeNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.EmployeeService;
+import com.verma.sandeep.hospital.mate.repository.EmployeeRepository;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+	
+	@Autowired
+	private EmployeeRepository empRepo;
 
 	@Override
 	public Employee createEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		return null;
+		return empRepo.save(employee);
 	}
 
 	@Override
 	public List<Employee> getAllEmployees() {
-		// TODO Auto-generated method stub
-		return null;
+		return empRepo.findAll();
 	}
 
 	@Override
 	public Employee getEmployeeById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return empRepo.findById(id)
+				                        .orElseThrow(()->new EmployeeNotFoundException("Employee not exist"));
 	}
 
 	@Override
-	public void updateEmployee(Employee updatedEmployee) {
-		// TODO Auto-generated method stub
+	public void updateEmployee(Employee employee) {
+		if(empRepo.existsById(employee.getEmpId())) 
+			empRepo.save(employee);
+		else
+			throw new EmployeeNotFoundException("Employee not exist");
 
 	}
 
 	@Override
 	public void deleteEmployee(Long id) {
-		// TODO Auto-generated method stub
+		empRepo.delete(getEmployeeById(id));
 
 	}
 

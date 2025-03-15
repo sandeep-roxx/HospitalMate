@@ -60,6 +60,8 @@ public class SecurityConfig {
 		        		.requestMatchers("/spec/**").hasAuthority(UserRole.ADMIN.name())
 		        		.requestMatchers("/doctor/**").hasAuthority(UserRole.ADMIN.name())
 		        		.requestMatchers("/slot/all","/slot/update-status").hasAuthority(UserRole.ADMIN.name())
+		        		.requestMatchers("/ward/**").hasAuthority(UserRole.ADMIN.name())
+		        		.requestMatchers("/employee/register","/employee/delete","/employee/all").hasAuthority(UserRole.ADMIN.name())
 		        		.requestMatchers("/appointment/register","/appointment/update","/appointment/all").hasAuthority(UserRole.ADMIN.name())
 		        		.requestMatchers("/appointment/search","/appointment/view/slots").hasAuthority(UserRole.PATIENT.name())
 		        		.requestMatchers("/slot/book","/slot/cancel/slot-request","/slot/patient/my-slots","/slot/payment").hasAuthority(UserRole.PATIENT.name())

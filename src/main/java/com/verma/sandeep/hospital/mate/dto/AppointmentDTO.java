@@ -1,4 +1,4 @@
-package com.verma.sandeep.hospital.mate.binding;
+package com.verma.sandeep.hospital.mate.dto;
 
 import java.util.Date;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppointmentResponse {
+public class AppointmentDTO {
 
 	private Long id;
     private Date date;

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.verma.sandeep.hospital.mate.binding.AppointmentResponse;
+import com.verma.sandeep.hospital.mate.dto.AppointmentDTO;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.AppointmentRepository;
@@ -45,12 +45,12 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	}
 
 	@Override
-	public List<AppointmentResponse> getAppointmentByDoctor(Long docId){
+	public List<AppointmentDTO> getAppointmentByDoctor(Long docId){
 		return appRepo.getAppointmentByDoctor(docId);
 	}
 
 	@Override
-	public List<AppointmentResponse> getAppoinmentsByDoctorEmail(String email) {
+	public List<AppointmentDTO> getAppoinmentsByDoctorEmail(String email) {
 		return appRepo.getAppoinmentsByDoctorEmail(email);
 	}
 
