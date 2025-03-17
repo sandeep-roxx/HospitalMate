@@ -14,6 +14,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -71,6 +73,10 @@ public class Patient {
 	
 	@Column(name = "pat_other_details_col")
 	private String otherDetails;
+	
+	@ManyToOne
+	@JoinColumn(name = "ward_id_fk_col")
+	private Ward ward;
 
 
 }

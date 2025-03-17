@@ -9,24 +9,25 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
-import com.verma.sandeep.hospital.mate.entity.Patient;
+import com.verma.sandeep.hospital.mate.dto.PatientDTO;
+import com.verma.sandeep.hospital.mate.dto.WardDTO;
 import com.verma.sandeep.hospital.mate.entity.Ward;
 import com.verma.sandeep.hospital.mate.iservice.WardService;
 import com.verma.sandeep.hospital.mate.service.impl.IDoctorService;
-import com.verma.sandeep.hospital.mate.service.impl.IPatientService;
+import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
 
 @RestController
 @RequestMapping("/ward")
 public class WardController {
 	
 	@Autowired
-    private IPatientService patientService;
+    private ISlotRequestService slotRequestService;
 	
 	@Autowired
     private WardService wardService;
@@ -35,9 +36,15 @@ public class WardController {
 	private IDoctorService doctorService;
 
     @PostMapping("/allocate")
-    public ResponseEntity<String> allocateWard(@RequestBody Ward ward) {
-        Long wardId = wardService.allocateWard(ward);
+    public ResponseEntity<String> allocateWard(@RequestBody WardDTO wardDTO) {
+        Long wardId = wardService.allocateWard(wardDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Ward created "+wardId);
+    }
+    
+    @PutMapping("/addPatients/{wardId}")
+    public ResponseEntity<String> addPatientsToWard(@PathVariable Long wardId, @RequestBody List<Long> patientIds) {
+        wardService.addPatientsToWard(wardId, patientIds);
+        return ResponseEntity.ok("Patients added successfully to ward " + wardId);
     }
 
     @GetMapping("/all")
@@ -47,10 +54,17 @@ public class WardController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Ward> getWardById(@PathVariable Long id) {
-        Ward ward = wardService.getWardById(id);
-        return ResponseEntity.ok(ward);
+    public ResponseEntity< WardDTO> getWardById(@PathVariable Long id) {
+        WardDTO wardDTO = wardService.getWardById(id);
+        return ResponseEntity.ok(wardDTO);
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateWard(@RequestBody WardDTO wardDTO) {
+        wardService.updateOneWard(wardDTO);
+        return ResponseEntity.ok("Ward updated successfully");
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteWard(@PathVariable Long id) {
@@ -58,11 +72,11 @@ public class WardController {
         return ResponseEntity.ok("Ward deleted successfully");
     }
     
-	//Search patient by email or mobile
-	@GetMapping("/patient/search")
-    public ResponseEntity<Patient> searchPatient(@RequestParam String query) {
-        Patient patient = patientService.searchPatientByEmailOrMobile(query);
-        return ResponseEntity.ok(patient);
+	//Checkbox List (Each patient has a checkbox)
+	@GetMapping("/patient/all")
+    public ResponseEntity<List<PatientDTO>> searchPatient() {
+        List<PatientDTO> patients = slotRequestService.fetchPaidPatients();
+        return ResponseEntity.ok(patients);
     }
 	
 	// doctor drop-down
