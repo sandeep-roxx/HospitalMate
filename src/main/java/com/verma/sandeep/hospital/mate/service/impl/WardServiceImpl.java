@@ -23,7 +23,7 @@ public class WardServiceImpl implements WardService {
 	@Autowired
 	private WardRepository wardRepo;
 	@Autowired
-	private IDoctorService doctorService;
+	private DoctorService doctorService;
 	@Autowired
 	private PatientRepository patientRepo;
 
@@ -47,7 +47,7 @@ public class WardServiceImpl implements WardService {
 	            ward.getPatients().add(patient);
 	            availableBeds--;
 	        } else {
-	        	ward.setStatus(WardStatus.Full.name());
+	        	ward.setStatus(WardStatus.FULL.name());
 	            break;
 	        }
 	    }
@@ -57,8 +57,11 @@ public class WardServiceImpl implements WardService {
 	}
 
 	@Override
-	public List<Ward> getAllWards() {
-		return wardRepo.findAll();
+	public List<WardDTO> getAllWards() {
+		return wardRepo.findAll()
+				                          .stream()
+				                          .map(ward->mapToDTO(ward))
+				                          .collect(Collectors.toList());
 	}
 
 	@Override
@@ -88,11 +91,12 @@ public class WardServiceImpl implements WardService {
     private Ward mapToEntity(WardDTO dto) {
     	
     	Ward ward=new Ward();
+    	ward.setWid(dto.getWid());
     	ward.setWardName(dto.getWardName());
     	ward.setType(dto.getType());
     	ward.setCapacity(dto.getCapacity());
-    	ward.setAvailableBeds(dto.getCapacity()-1);
-    	ward.setStatus(WardStatus.Active.name());
+    	ward.setAvailableBeds(dto.getAvailableBeds());
+    	ward.setStatus(dto.getStatus());
     	ward.setFloorNumber(dto.getFloorNumber());
     	ward.setDescription(dto.getDescription());
     	
@@ -116,6 +120,8 @@ public class WardServiceImpl implements WardService {
     			ward.getWardName(),
     			ward.getType(),
     			ward.getCapacity(),
+    			ward.getAvailableBeds(),
+    			ward.getStatus(),
     			ward.getFloorNumber(),
     			ward.getDescription(),
     			ward.getDoctor() != null ? ward.getDoctor().getId() : null,

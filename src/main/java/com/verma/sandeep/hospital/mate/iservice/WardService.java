@@ -9,7 +9,7 @@ public interface WardService {
 	
 	Long allocateWard(WardDTO wardDTO);
 	void addPatientsToWard(Long wardId, List<Long> patientIds);
-    List<Ward> getAllWards();
+    List<WardDTO> getAllWards();
     WardDTO getWardById(Long id);
     void updateOneWard(WardDTO wardDTO);
     void deleteWard(Long id);

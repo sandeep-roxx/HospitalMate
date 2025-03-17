@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
-import com.verma.sandeep.hospital.mate.service.impl.IPatientService;
+import com.verma.sandeep.hospital.mate.service.impl.PatientService;
 
 import jakarta.validation.Valid;
 
@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 public class PatientController {
 	
 	@Autowired
-	private IPatientService patientService;
+	private PatientService patientService;
 	
 	@PostMapping("/register")
     public ResponseEntity<String> registerPatient(@Valid @RequestBody Patient patient) {

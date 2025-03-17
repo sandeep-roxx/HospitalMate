@@ -7,7 +7,7 @@ import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 
 
-public interface IDoctorService {
+public interface DoctorService {
 	
 	public Long saveDoctor(Doctor doc);
 	public List<Doctor> getAllDoctor();

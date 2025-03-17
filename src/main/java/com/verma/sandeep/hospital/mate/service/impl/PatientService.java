@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.verma.sandeep.hospital.mate.entity.Patient;
 
-public interface IPatientService {
+public interface PatientService {
 	
 	public Long savePatient(Patient pat);
 	//public List<Patient> getAllPatients();

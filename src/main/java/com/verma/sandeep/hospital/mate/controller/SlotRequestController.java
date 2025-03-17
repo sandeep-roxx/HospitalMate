@@ -21,7 +21,7 @@ import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
 import com.verma.sandeep.hospital.mate.payment.RazorpayService;
 import com.verma.sandeep.hospital.mate.service.impl.IAppointmentService;
-import com.verma.sandeep.hospital.mate.service.impl.IPatientService;
+import com.verma.sandeep.hospital.mate.service.impl.PatientService;
 import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
 
 @RestController
@@ -31,7 +31,7 @@ public class SlotRequestController {
 	@Autowired
 	private IAppointmentService apmtService;
 	@Autowired
-	private IPatientService patientService; 
+	private PatientService patientService; 
 	@Autowired
 	private ISlotRequestService slotService;
 	

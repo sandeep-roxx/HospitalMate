@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.verma.sandeep.hospital.mate.constant.WardStatus;
 import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.dto.PatientDTO;
 import com.verma.sandeep.hospital.mate.dto.WardDTO;
 import com.verma.sandeep.hospital.mate.entity.Ward;
 import com.verma.sandeep.hospital.mate.iservice.WardService;
-import com.verma.sandeep.hospital.mate.service.impl.IDoctorService;
+import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
 import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
 
 @RestController
@@ -33,10 +34,14 @@ public class WardController {
     private WardService wardService;
 	
 	@Autowired
-	private IDoctorService doctorService;
+	private DoctorService doctorService;
 
     @PostMapping("/allocate")
     public ResponseEntity<String> allocateWard(@RequestBody WardDTO wardDTO) {
+    	//Set available beds and status
+    	wardDTO.setAvailableBeds(wardDTO.getCapacity()-1);
+    	wardDTO.setStatus(WardStatus.AVAILABLE.name());
+    	
         Long wardId = wardService.allocateWard(wardDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Ward created "+wardId);
     }
@@ -48,9 +53,9 @@ public class WardController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Ward>> getAllWards() {
-        List<Ward> wards = wardService.getAllWards();
-        return ResponseEntity.ok(wards);
+    public ResponseEntity<List<WardDTO>> getAllWards() {
+        List<WardDTO> wardDTOs = wardService.getAllWards();
+        return ResponseEntity.ok(wardDTOs);
     }
 
     @GetMapping("/find/{id}")

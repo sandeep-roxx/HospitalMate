@@ -1,6 +1,5 @@
 package com.verma.sandeep.hospital.mate.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +15,8 @@ public class WardDTO {
     private String wardName;
     private String type;
     private int capacity;
+    private Integer availableBeds;
+    private String status; 
     private Integer floorNumber;
     private String description;
     

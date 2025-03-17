@@ -15,7 +15,7 @@ import com.verma.sandeep.hospital.mate.repository.PatientRepository;
 import com.verma.sandeep.hospital.mate.util.PasswordGeneratorUtil;
 
 @Service
-public class PatientServiceImpl implements IPatientService {
+public class PatientServiceImpl implements PatientService {
 	
 	@Autowired
 	private PatientRepository patRepo;

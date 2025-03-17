@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
-import com.verma.sandeep.hospital.mate.service.impl.IDoctorService;
+import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
 import com.verma.sandeep.hospital.mate.service.impl.ISpecializationMgmtService;
 import com.verma.sandeep.hospital.mate.service.impl.S3FileService;
 
@@ -31,7 +31,7 @@ import com.verma.sandeep.hospital.mate.service.impl.S3FileService;
 public class DoctorController {
 	
 	@Autowired
-	private IDoctorService docService;
+	private DoctorService docService;
 	@Autowired
 	private ISpecializationMgmtService specService;
 	@Autowired

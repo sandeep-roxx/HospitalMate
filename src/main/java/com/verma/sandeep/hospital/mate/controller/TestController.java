@@ -19,7 +19,7 @@ import com.verma.sandeep.hospital.mate.dto.PatientDTO;
 import com.verma.sandeep.hospital.mate.entity.Test;
 import com.verma.sandeep.hospital.mate.exception.TestNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.TestService;
-import com.verma.sandeep.hospital.mate.service.impl.IDoctorService;
+import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
 import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
 
 @RestController
@@ -31,7 +31,7 @@ public class TestController {
 	@Autowired
 	 private ISlotRequestService slotRequestService;
 	@Autowired
-	private IDoctorService doctorService;
+	private DoctorService doctorService;
 	
 	 @PostMapping("/add")
 	    public ResponseEntity<?> addTest(@RequestBody Test test) {
