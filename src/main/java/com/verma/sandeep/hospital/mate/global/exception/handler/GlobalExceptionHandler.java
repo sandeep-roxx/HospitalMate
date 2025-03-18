@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.verma.sandeep.hospital.mate.dto.ErrorMessage;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
+import com.verma.sandeep.hospital.mate.exception.MedicosNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.SpecializationNotFoundException;
 
@@ -28,19 +29,25 @@ public class GlobalExceptionHandler {
     }
 	
 	 @ExceptionHandler(Exception.class)
-	    public ResponseEntity<String> handleGenericException(Exception ex) {
+	    public ResponseEntity<ErrorMessage> handleGenericException(Exception ex) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body("Something went wrong: " + ex.getMessage());
+                    .body(
+                 		   new ErrorMessage(new Date().toString(),
+                 				   ex.getMessage(),
+                 				   HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                 				   HttpStatus.INTERNAL_SERVER_ERROR.name()
+                 				   )
+                 		   );
 	    }
 
     @ExceptionHandler(SpecializationNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleSpecializationNotFoundException(SpecializationNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
         		                                   .body(
         		                                		   new ErrorMessage(new Date().toString(),
         		                                				   ex.getMessage(),
-        		                                				   HttpStatus.INTERNAL_SERVER_ERROR.value(),
-        		                                				   HttpStatus.INTERNAL_SERVER_ERROR.name()
+        		                                				   HttpStatus.NOT_FOUND.value(),
+        		                                				   HttpStatus.NOT_FOUND.name()
         		                                				   )
         		                                		   );
     }
@@ -89,6 +96,18 @@ public class GlobalExceptionHandler {
         		                                				   e.getMessage(),
         		                                				   HttpStatus.INTERNAL_SERVER_ERROR.value(),
         		                                				   HttpStatus.INTERNAL_SERVER_ERROR.name()
+        		                                				   )
+        		                                		   );
+    }
+    
+    @ExceptionHandler(MedicosNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleMedicosNotFoundException(MedicosNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        		                                   .body(
+        		                                		   new ErrorMessage(new Date().toString(),
+        		                                				   e.getMessage(),
+        		                                				   HttpStatus.NOT_FOUND.value(),
+        		                                				   HttpStatus.NOT_FOUND.name()
         		                                				   )
         		                                		   );
     }
