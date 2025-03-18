@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.verma.sandeep.hospital.mate.constant.OperationStatus;
 import com.verma.sandeep.hospital.mate.dto.OperationDTO;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.entity.Operation;
@@ -65,7 +66,7 @@ public class OperationServiceImpl implements OperationService {
 	
 	@Override
 	@Transactional
-	public void updateOperationStatus(Long operationId, String status) {
+	public void updateOperationStatus(Long operationId, OperationStatus status) {
 		operationRepo.updateOperationStatus(operationId, status);
 		
 	}

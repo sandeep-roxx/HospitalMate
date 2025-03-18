@@ -18,17 +18,17 @@ import com.verma.sandeep.hospital.mate.constant.WardStatus;
 import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.dto.PatientDTO;
 import com.verma.sandeep.hospital.mate.dto.WardDTO;
-import com.verma.sandeep.hospital.mate.entity.Ward;
+import com.verma.sandeep.hospital.mate.exception.WardNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.WardService;
 import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
-import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
+import com.verma.sandeep.hospital.mate.service.impl.SlotRequestService;
 
 @RestController
 @RequestMapping("/ward")
 public class WardController {
 	
 	@Autowired
-    private ISlotRequestService slotRequestService;
+    private SlotRequestService slotRequestService;
 	
 	@Autowired
     private WardService wardService;
@@ -42,14 +42,26 @@ public class WardController {
     	wardDTO.setAvailableBeds(wardDTO.getCapacity()-1);
     	wardDTO.setStatus(WardStatus.AVAILABLE.name());
     	
-        Long wardId = wardService.allocateWard(wardDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Ward created "+wardId);
+      try {
+    	  Long wardId = wardService.allocateWard(wardDTO);
+          return ResponseEntity.status(HttpStatus.CREATED).body("Ward created "+wardId);
+	} catch (Exception e) {
+		throw e;
+	}
     }
     
+    //Add more patient in same ward
     @PutMapping("/addPatients/{wardId}")
-    public ResponseEntity<String> addPatientsToWard(@PathVariable Long wardId, @RequestBody List<Long> patientIds) {
-        wardService.addPatientsToWard(wardId, patientIds);
-        return ResponseEntity.ok("Patients added successfully to ward " + wardId);
+    public ResponseEntity<String> addPatientsToWard(
+    		@PathVariable Long wardId,
+    		@RequestBody List<Long> patientIds) 
+    {
+        try {
+        	wardService.addPatientsToWard(wardId, patientIds);
+            return ResponseEntity.ok("Patients added successfully to ward " + wardId);
+        }catch (WardNotFoundException e) {
+			throw e;
+		}
     }
 
     @GetMapping("/all")
@@ -60,22 +72,35 @@ public class WardController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity< WardDTO> getWardById(@PathVariable Long id) {
-        WardDTO wardDTO = wardService.getWardById(id);
-        return ResponseEntity.ok(wardDTO);
+       try {
+    	   WardDTO wardDTO = wardService.getWardById(id);
+           return ResponseEntity.ok(wardDTO);
+		
+	} catch (WardNotFoundException e) {
+		throw e;
+	}
     }
     
     @PutMapping("/{id}")
     public ResponseEntity<String> updateWard(@RequestBody WardDTO wardDTO) {
-        wardService.updateOneWard(wardDTO);
-        return ResponseEntity.ok("Ward updated successfully");
+       try {
+    	   wardService.updateOneWard(wardDTO);
+           return ResponseEntity.ok("Ward updated successfully");
+	} catch (WardNotFoundException e) {
+		throw e;
+	}
     }
 
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteWard(@PathVariable Long id) {
-        wardService.deleteWard(id);
-        return ResponseEntity.ok("Ward deleted successfully");
-    }
+        try {
+        	wardService.deleteWard(id);
+            return ResponseEntity.ok("Ward deleted successfully");
+		} catch (WardNotFoundException e) {
+			throw e;
+		}
+		}
     
 	//Checkbox List (Each patient has a checkbox)
 	@GetMapping("/patient/all")

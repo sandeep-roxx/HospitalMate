@@ -14,7 +14,7 @@ import com.verma.sandeep.hospital.mate.repository.SlotRequestRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class SlotRequestServiceImpl implements ISlotRequestService {
+public class SlotRequestServiceImpl implements SlotRequestService {
 	
 	@Autowired
 	private SlotRequestRepository slotRequestRepo;

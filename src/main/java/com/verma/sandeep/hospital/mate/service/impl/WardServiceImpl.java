@@ -33,6 +33,7 @@ public class WardServiceImpl implements WardService {
 		return wardRepo.save(ward).getWid();
 	}
 	
+	//Add more patient in same ward
 	public void addPatientsToWard(Long wardId, List<Long> patientIds) {
 		Ward ward=mapToEntity(getWardById(wardId));
 		if(ward.getAvailableBeds()==0){

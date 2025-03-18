@@ -31,7 +31,7 @@ public class OperationController {
     @PostMapping
     public ResponseEntity<Long> createOperation(@RequestBody OperationDTO operationDTO) {
     	//Set the operation status
-    	operationDTO.setStatus(OperationStatus.Scheduled.name());
+    	operationDTO.setStatus(OperationStatus.SCHEDULED);
         Long operationId = operationService.createOperation(operationDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(operationId);
     }
@@ -67,8 +67,13 @@ public class OperationController {
 	
 	// Update operation status
     @PatchMapping("/{id}/status")
-    public ResponseEntity<String> updateOperationStatus(@PathVariable Long id, @RequestParam String status) {
-        operationService.updateOperationStatus(id, status);
+    public ResponseEntity<String> updateOperationStatus(
+    		@PathVariable Long id,
+    		@RequestParam String status) 
+    {
+    	// Convert String to Enum
+    	OperationStatus operationStatus = OperationStatus.valueOf(status); 
+        operationService.updateOperationStatus(id, operationStatus);
         return ResponseEntity.ok("Operation status updated successfully.");
     }
 

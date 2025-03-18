@@ -2,6 +2,7 @@ package com.verma.sandeep.hospital.mate.iservice;
 
 import java.util.List;
 
+import com.verma.sandeep.hospital.mate.constant.OperationStatus;
 import com.verma.sandeep.hospital.mate.dto.OperationDTO;
 
 public interface OperationService {
@@ -11,7 +12,7 @@ public interface OperationService {
 	OperationDTO getOperationById(Long id);
 	void updateOperation(OperationDTO operationDTO);
 	void deleteOperation(Long id);
-	void updateOperationStatus(Long operationId,String status);
+	void updateOperationStatus(Long operationId,OperationStatus status);
 	String getOperationStatus(Long operationId);
 
 }

@@ -11,7 +11,7 @@ import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.AppointmentRepository;
 
 @Service
-public class AppointmentServiceImpl implements IAppointmentService {
+public class AppointmentServiceImpl implements AppointmentService {
 	
 	@Autowired
 	private AppointmentRepository appRepo;

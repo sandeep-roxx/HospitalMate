@@ -16,13 +16,13 @@ import com.verma.sandeep.hospital.mate.constant.PaymentStatus;
 import com.verma.sandeep.hospital.mate.entity.PaymentDetail;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
 import com.verma.sandeep.hospital.mate.service.impl.IPaymentDetailService;
-import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
+import com.verma.sandeep.hospital.mate.service.impl.SlotRequestService;
 
 @Service
 public class RazorpayService {
 	
 	@Autowired
-	private ISlotRequestService slotRequestService;
+	private SlotRequestService slotRequestService;
 	@Autowired
 	private IPaymentDetailService pymntDetailService;
 	

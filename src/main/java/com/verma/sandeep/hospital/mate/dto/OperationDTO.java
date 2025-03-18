@@ -2,6 +2,7 @@ package com.verma.sandeep.hospital.mate.dto;
 
 import java.time.LocalDateTime;
 
+import com.verma.sandeep.hospital.mate.constant.OperationStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class OperationDTO {
     private Long patientId;
     private Long doctorId; 
     private LocalDateTime operationDateTime;
-    private String status;
+    private OperationStatus status; 
     private String description;
     private int operationTheaterRoom;
     private String notes;

@@ -20,7 +20,7 @@ import com.verma.sandeep.hospital.mate.entity.Test;
 import com.verma.sandeep.hospital.mate.exception.TestNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.TestService;
 import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
-import com.verma.sandeep.hospital.mate.service.impl.ISlotRequestService;
+import com.verma.sandeep.hospital.mate.service.impl.SlotRequestService;
 
 @RestController
 @RequestMapping("/test")
@@ -29,7 +29,7 @@ public class TestController {
 	@Autowired
 	private TestService testService;
 	@Autowired
-	 private ISlotRequestService slotRequestService;
+	 private SlotRequestService slotRequestService;
 	@Autowired
 	private DoctorService doctorService;
 	

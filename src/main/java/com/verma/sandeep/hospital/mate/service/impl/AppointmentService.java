@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import com.verma.sandeep.hospital.mate.dto.AppointmentDTO;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 
-public interface IAppointmentService {
+public interface AppointmentService {
 	
 	public Long saveAppointment(Appointment pat);
 	public List<Appointment> getAllAppointments();

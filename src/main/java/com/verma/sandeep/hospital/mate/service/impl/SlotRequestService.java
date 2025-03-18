@@ -6,7 +6,7 @@ import java.util.Map;
 import com.verma.sandeep.hospital.mate.dto.PatientDTO;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
 
-public interface ISlotRequestService {
+public interface SlotRequestService {
 	
 	public void saveSlotRequest(SlotRequest slot);
 	public SlotRequest getOneSlotRequest(Long slotRequestId);

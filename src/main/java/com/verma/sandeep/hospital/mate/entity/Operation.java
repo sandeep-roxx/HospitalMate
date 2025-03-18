@@ -2,8 +2,12 @@ package com.verma.sandeep.hospital.mate.entity;
 
 import java.time.LocalDateTime;
 
+import com.verma.sandeep.hospital.mate.constant.OperationStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,8 +45,9 @@ public class Operation {
     private LocalDateTime operationDateTime;
 
 
+    @Enumerated(EnumType.STRING) 
     @Column(name = "op_status")
-    private String status; 
+    private OperationStatus status; 
 
     @Column(name = "op_description", length = 500)
     private String description;

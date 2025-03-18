@@ -23,7 +23,7 @@ import com.verma.sandeep.hospital.mate.dto.AppointmentDTO;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
-import com.verma.sandeep.hospital.mate.service.impl.IAppointmentService;
+import com.verma.sandeep.hospital.mate.service.impl.AppointmentService;
 import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
 import com.verma.sandeep.hospital.mate.service.impl.ISpecializationMgmtService;
 
@@ -33,7 +33,7 @@ import com.verma.sandeep.hospital.mate.service.impl.ISpecializationMgmtService;
 public class AppointmentController {
 
 	@Autowired
-	private IAppointmentService appointmentService;
+	private AppointmentService appointmentService;
 	
 	@Autowired
 	private DoctorService docService;
