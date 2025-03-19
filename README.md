@@ -1,10 +1,7 @@
-Online Appointment Booking Application:
+
 Overview:
 
-The Online Appointment Booking Application is designed to facilitate appointment scheduling between patients and doctors.
-Patients can register, search for doctors based on specialization, and request slots for appointments.
-Admins manage doctors, appointment slots, and generate reports.
-The system also includes payment and document management features.
+The HospitalMate Application is designed to provide a seamless and efficient platform for managing doctor appointments, patient records, hospital operations, and medical services. It integrates multiple functionalities such as doctor-patient interactions, hospital management, payments, invoicing, and reports. The system ensures a streamlined workflow for medical professionals while enhancing patient experience.
 
 Features:
 1. User Roles:-
