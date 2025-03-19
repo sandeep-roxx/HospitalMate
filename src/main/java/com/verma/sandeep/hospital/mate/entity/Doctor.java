@@ -49,12 +49,6 @@ public class Doctor {
 	
 	@Column(name="doc_img_col")
 	private String fileUrl;
-	
-	@Column(name = "created_by")
-    private String createdBy;
-
-    @Column(name = "updated_by")
-    private String updatedBy;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

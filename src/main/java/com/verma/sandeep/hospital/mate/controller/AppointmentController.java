@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.dto.AppointmentDTO;
+import com.verma.sandeep.hospital.mate.dto.DoctorResponseDTO;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
+import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.service.impl.AppointmentService;
 import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
 import com.verma.sandeep.hospital.mate.service.impl.ISpecializationMgmtService;
@@ -37,24 +39,7 @@ public class AppointmentController {
 	
 	@Autowired
 	private DoctorService docService;
-	
-	@Autowired
-	private ISpecializationMgmtService specService;
-	
-	
-	@GetMapping("/docotor/dropdown")
-    public ResponseEntity<Map<Long, String>> getDoctorDropdown() {
-		Map<Long,String> DoctorMap=docService.getDoctorIdAndNames();
-		return new ResponseEntity<Map<Long,String>>(DoctorMap,HttpStatus.OK);
-		
-	}
-	
-	@GetMapping("/spec/dropdown")
-    public ResponseEntity<Map<Long, String>> getSpecializationDropdown() {
-		Map<Long,String> SpecMap=specService.getSpecIdAndName();
-		return new ResponseEntity<Map<Long,String>>(SpecMap,HttpStatus.OK);
-		
-	}
+
 
 	// Create an appointment
 	@PostMapping("/register")
@@ -100,25 +85,33 @@ public class AppointmentController {
 	// Fetch doctors based on specialization or doctor (or all doctors if no specialization is given) 
 	//To view the appointments 
 	 @GetMapping("/search")
-	    public ResponseEntity<List<Doctor>> searchDoctorsForVeiwAppointments(
+	    public ResponseEntity<?> searchDoctorsForVeiwAppointments(
 	    		@RequestParam(required = false) Long specId,
 	    		@RequestParam(required = false) Long doctorId
 	    		)
-	    {
-		 List<Doctor> doctors;
-	        if (specId != null && doctorId != null) {
-	            doctors = docService.findDoctorBySpecIdAndDoctorId(specId, doctorId);
-	        }
-	        else if(specId != null) {
-	        	doctors=docService.findDoctorBySpecId(specId);
-	        }
-	        else if (doctorId != null) {
-            doctors = docService.findDoctorById(doctorId);
-             } else {
-            doctors = docService.getAllDoctor();
-            }
-	        return ResponseEntity.ok(doctors);
-	    }
+				{
+					try {
+
+						if (specId != null && doctorId != null) {
+							DoctorResponseDTO doctorResponseDTO = docService.findDoctorBySpecIdAndDoctorId(specId,
+									doctorId);
+							return ResponseEntity.ok(doctorResponseDTO);
+						} else if (specId != null && doctorId == null) {
+							List<DoctorResponseDTO> doctorResponseDTOs = docService.findDoctorBySpecId(specId);
+							return ResponseEntity.ok(doctorResponseDTOs);
+						} else if (doctorId != null && specId == null) {
+							DoctorResponseDTO doctorResponseDTO = docService.getOneDoctor(doctorId);
+							return ResponseEntity.ok(doctorResponseDTO);
+
+						} else {
+							List<DoctorResponseDTO> doctorResponseDTOs = docService.getAllDoctor();
+							return ResponseEntity.ok(doctorResponseDTOs);
+						}
+
+					} catch (DoctorNotFoundException e) {
+						throw e;
+					}
+				}
 	
 	 //View appointment slots of specific doctor
 	 @GetMapping("/view/slots/{doctorId}")

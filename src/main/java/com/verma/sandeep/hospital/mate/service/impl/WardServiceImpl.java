@@ -12,8 +12,10 @@ import com.verma.sandeep.hospital.mate.dto.WardDTO;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.entity.Ward;
+import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.WardNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.WardService;
+import com.verma.sandeep.hospital.mate.repository.DoctorRepository;
 import com.verma.sandeep.hospital.mate.repository.PatientRepository;
 import com.verma.sandeep.hospital.mate.repository.WardRepository;
 
@@ -23,7 +25,7 @@ public class WardServiceImpl implements WardService {
 	@Autowired
 	private WardRepository wardRepo;
 	@Autowired
-	private DoctorService doctorService;
+	private DoctorRepository doctorRepository;
 	@Autowired
 	private PatientRepository patientRepo;
 
@@ -102,7 +104,8 @@ public class WardServiceImpl implements WardService {
     	ward.setDescription(dto.getDescription());
     	
     	if(dto.getDoctorId()!=null) {
-    		Doctor doctor=doctorService.getOneDoctor(dto.getDoctorId());
+    		Doctor doctor=doctorRepository.findById(dto.getDoctorId())
+    				                                                      .orElseThrow(()-> new DoctorNotFoundException("Doctor not found"));
     		ward.setDoctor(doctor);
     	}
     	

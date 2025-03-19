@@ -13,7 +13,6 @@ public interface ISpecializationMgmtService {
 	SpecializationResponseDTO getOneSpecialization(Long id);
 	void removeSpecialization(Long id);
 	void updateSpecialization(Long id,SpecializationRequestDTO specializationRequestDTO);
-	Map<Long,String> getSpecIdAndName();
 	
 
 }

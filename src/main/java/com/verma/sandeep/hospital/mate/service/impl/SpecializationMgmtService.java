@@ -58,11 +58,6 @@ public class SpecializationMgmtService implements ISpecializationMgmtService {
 		
 	}
 
-	@Override
-	public Map<Long, String> getSpecIdAndName() {
-		List<Object[]> list=specRepo.getSpecIdAndName();
-		return MyCollectionUtil.convertToMap(list);
-	}
 	
 	private SpecializationResponseDTO mapToSpecializationResponseDTO(Specialization specialization)
 	{

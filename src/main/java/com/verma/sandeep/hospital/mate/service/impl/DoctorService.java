@@ -1,24 +1,25 @@
 package com.verma.sandeep.hospital.mate.service.impl;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
-import com.verma.sandeep.hospital.mate.entity.Doctor;
+import com.verma.sandeep.hospital.mate.dto.DoctorRequestDTO;
+import com.verma.sandeep.hospital.mate.dto.DoctorResponseDTO;
 
 
 public interface DoctorService {
 	
-	public Long saveDoctor(Doctor doc);
-	public List<Doctor> getAllDoctor();
-	public void removeDoctor(Long id);
-	public Doctor getOneDoctor(Long id);
-	public void updateDoctor(Doctor doc);
-	public Map<Long,String> getDoctorIdAndNames();
-	public List<Doctor> findDoctorBySpecId(Long specId);
-	public List<Doctor> findDoctorById(Long doctorId);
-	public List<Doctor> findDoctorBySpecIdAndDoctorId(Long specId, Long doctorId);
-	public List<DoctorDTO> getAllDoctorsDTO();
-	public Long getDoctorCount();
+	Long saveDoctor(DoctorRequestDTO doctorRequestDTO,MultipartFile file)throws IOException;
+	List<DoctorResponseDTO> getAllDoctor();
+	void removeDoctor(Long id);
+	DoctorResponseDTO getOneDoctor(Long id);
+	void updateDoctor(Long id,DoctorRequestDTO doctorRequestDTO);
+	List<DoctorResponseDTO> findDoctorBySpecId(Long specId);
+	DoctorResponseDTO findDoctorBySpecIdAndDoctorId(Long specId, Long doctorId);
+	List<DoctorDTO> getAllDoctorsDTO();
+	Long getDoctorCount();
 
 }

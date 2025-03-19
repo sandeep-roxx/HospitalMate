@@ -2,7 +2,6 @@ package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
 
 import com.verma.sandeep.hospital.mate.dto.AppointmentDTO;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
