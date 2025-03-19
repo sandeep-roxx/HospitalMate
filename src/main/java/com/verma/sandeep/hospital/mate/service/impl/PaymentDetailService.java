@@ -8,7 +8,7 @@ import com.verma.sandeep.hospital.mate.entity.PaymentDetail;
 import jakarta.servlet.http.HttpServletResponse;
 
 
-public interface IPaymentDetailService {
+public interface PaymentDetailService {
 	
 	public void savePaymentDetail(PaymentDetail pymt);
 	public List<PaymentDetail> getAllPaymentDetails();

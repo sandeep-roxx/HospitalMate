@@ -17,7 +17,7 @@ import com.verma.sandeep.hospital.mate.exception.UserNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.UserRepository;
 
 @Service
-public class UserMgmtServiceImpl implements IUserMgmtService,UserDetailsService {
+public class UserMgmtServiceImpl implements UserMgmtService,UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepo;

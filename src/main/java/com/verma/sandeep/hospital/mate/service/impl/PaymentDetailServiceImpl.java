@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Service
-public class PaymentDetailServiceImpl implements IPaymentDetailService {
+public class PaymentDetailServiceImpl implements PaymentDetailService {
 	
 	
 	@Autowired

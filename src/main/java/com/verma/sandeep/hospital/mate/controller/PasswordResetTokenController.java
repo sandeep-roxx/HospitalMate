@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.entity.User;
 import com.verma.sandeep.hospital.mate.service.impl.IPasswordResetTokenService;
-import com.verma.sandeep.hospital.mate.service.impl.IUserMgmtService;
+import com.verma.sandeep.hospital.mate.service.impl.UserMgmtService;
 
 @RestController
 @RequestMapping("/user")
 public class PasswordResetTokenController {
 	
 	@Autowired
-	private IUserMgmtService userService;
+	private UserMgmtService userService;
 	@Autowired
 	private IPasswordResetTokenService resetService;
 	

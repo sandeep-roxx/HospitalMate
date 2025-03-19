@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.entity.PaymentDetail;
 import com.verma.sandeep.hospital.mate.exception.PaymentDetailNotFoundException;
-import com.verma.sandeep.hospital.mate.service.impl.IPaymentDetailService;
+import com.verma.sandeep.hospital.mate.service.impl.PaymentDetailService;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class PaymentDetailController {
 	
 	@Autowired
-	private IPaymentDetailService pymtDetail;
+	private PaymentDetailService pymtDetail;
 	
 	//Logged-in patient can download invoice
 	@GetMapping("/generate-invoice")

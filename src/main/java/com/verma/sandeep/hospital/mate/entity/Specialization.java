@@ -38,12 +38,6 @@ public class Specialization {
 	@Size(max = 255, message = "Description should not exceed 255 characters")
 	@Column(name="spec_des_col")
 	private String description;
-	
-	@Column(name = "created_by")
-    private String createdBy;
-
-    @Column(name = "updated_by")
-    private String updatedBy;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

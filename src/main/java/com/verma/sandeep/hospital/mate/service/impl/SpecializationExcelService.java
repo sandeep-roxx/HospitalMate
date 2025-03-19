@@ -13,18 +13,18 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import com.verma.sandeep.hospital.mate.entity.Specialization;
+import com.verma.sandeep.hospital.mate.dto.SpecializationResponseDTO;
 
 @Service
 public class SpecializationExcelService {
 	
-	public byte[] generateExcel(List<Specialization> specializations) throws IOException {
+	public byte[] generateExcel(List<SpecializationResponseDTO> specializationResponseDTOs) throws IOException {
 		
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet("Specializations");
 		// Create header row
         Row headerRow = sheet.createRow(0);
-        String[] headers = {"ID", "Name", "Code", "Description", "Created By", "Updated By"};
+        String[] headers = {"ID", "Name", "Code", "Description", "Created At", "Updated At"};
         
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
@@ -34,14 +34,14 @@ public class SpecializationExcelService {
         
      // Populate data rows
         int rowNum = 1;
-        for (Specialization spec : specializations) {
+        for (SpecializationResponseDTO spec : specializationResponseDTOs) {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(spec.getId());
             row.createCell(1).setCellValue(spec.getSpecName());
             row.createCell(2).setCellValue(spec.getSpecCode());
             row.createCell(3).setCellValue(spec.getDescription());
-            row.createCell(4).setCellValue(spec.getCreatedBy());
-            row.createCell(5).setCellValue(spec.getUpdatedBy());
+            row.createCell(5).setCellValue(spec.getCreatedAt());
+            row.createCell(5).setCellValue(spec.getUpdatedAt());
         }//for
         
         //Convert Workbook to Byte Array

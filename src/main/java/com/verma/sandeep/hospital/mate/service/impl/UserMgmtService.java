@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.verma.sandeep.hospital.mate.dto.PasswordUpdateRequest;
 import com.verma.sandeep.hospital.mate.entity.User;
 
-public interface IUserMgmtService {
+public interface UserMgmtService {
 	
 	public Long saveUser(User user);
 	public Optional<User> findByEmail(String email);

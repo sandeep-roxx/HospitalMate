@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+@NoArgsConstructor
+public class SpecializationRequestDTO {
 	
-	private String token;
-	private String message;
+	private String specName;
+    private String specCode;
+    private String description;
 
 }

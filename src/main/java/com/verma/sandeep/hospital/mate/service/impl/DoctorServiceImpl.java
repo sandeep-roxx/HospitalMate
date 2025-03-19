@@ -22,7 +22,7 @@ public class DoctorServiceImpl implements DoctorService {
 	private DoctorRepository docRepo;
 	
 	@Autowired
-	private IUserMgmtService userService;
+	private UserMgmtService userService;
 	
 	@Autowired
 	private PasswordGeneratorUtil passwordGenerator;

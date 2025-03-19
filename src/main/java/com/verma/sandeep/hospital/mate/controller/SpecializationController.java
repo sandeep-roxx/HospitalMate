@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.verma.sandeep.hospital.mate.dto.SpecializationRequestDTO;
+import com.verma.sandeep.hospital.mate.dto.SpecializationResponseDTO;
 import com.verma.sandeep.hospital.mate.entity.Specialization;
 import com.verma.sandeep.hospital.mate.exception.SpecializationNotFoundException;
 import com.verma.sandeep.hospital.mate.service.impl.ISpecializationMgmtService;
@@ -36,43 +38,39 @@ public class SpecializationController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<String> registerSpecialization(
-			@Valid  @RequestBody Specialization spec,
-			    Authentication authentication
+			@RequestBody SpecializationRequestDTO  specializationRequestDTO
 			    )
 	{
-		//Get current username
-		String username=authentication.getName();
-		spec.setCreatedBy(username);
-		spec.setUpdatedBy(username);
-		ResponseEntity<String> response=null;
 		try {
-			Long id=specService.saveSpecialization(spec);
-			response=new ResponseEntity<String>("Specialization "+id+" saved", HttpStatus.CREATED);
+			Long id=specService.saveSpecialization(specializationRequestDTO);
+			return new ResponseEntity<String>("Specialization "+id+" saved", HttpStatus.CREATED);
 		}catch (Exception e) {
 			throw e;
 		}
-		return response;
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Specialization>> findAllSpecializations(){
-		List<Specialization> specList=specService.getAllSpecializations();
-		return new ResponseEntity<List<Specialization>>(specList, HttpStatus.OK);		
+	public ResponseEntity<List<SpecializationResponseDTO>> findAllSpecializations(){
+		
+		try {
+			List<SpecializationResponseDTO> specList=specService.getAllSpecializations();
+			return new ResponseEntity<List<SpecializationResponseDTO>>(specList, HttpStatus.OK);
+		} catch (Exception e) {
+			throw e;
+		}
 		
 	}
 	
 	@GetMapping("/find/{id}")
-	public ResponseEntity<Specialization> findOneSpecialization(@PathVariable Long id){
+	public ResponseEntity<SpecializationResponseDTO> findOneSpecialization(@PathVariable Long id){
 		
-		ResponseEntity<Specialization> response=null;
 		try {
-			Specialization spec=specService.getOneSpecialization(id);
-			response= new ResponseEntity<Specialization>(spec, HttpStatus.OK);	
+			SpecializationResponseDTO specializationResponseDTO=specService.getOneSpecialization(id);
+			return new ResponseEntity<SpecializationResponseDTO>(specializationResponseDTO, HttpStatus.OK);	
 			
 		}catch (SpecializationNotFoundException specex) {
 			throw specex;
 		}
-		return response;
 		
 	}
 	
@@ -91,22 +89,17 @@ public class SpecializationController {
 		
 	}
 	
-	@PutMapping("/update")
-	public ResponseEntity<String> updateSpecialization(@Valid @RequestBody Specialization spec,
-			                                                                                             Authentication authentication
-			                                                                                             )
+	@PutMapping("/update/{id}")
+	public ResponseEntity<String> updateSpecialization(
+			@PathVariable Long id,
+			@RequestBody SpecializationRequestDTO specializationRequestDTO
+		)
 	{
-		//Get current username
-		String username=authentication.getName();
 		ResponseEntity<String> response=null;
 		
 		try {
-			//Fetch the existing record 
-			Specialization existingSpec=specService.getOneSpecialization(spec.getId());
-			// Preserve the 'createdBy' field from the existing record
-			spec.setCreatedBy(existingSpec.getCreatedBy());
-			spec.setUpdatedBy(username);
-			specService.updateSpecialization(spec);
+			
+			specService.updateSpecialization(id,specializationRequestDTO);
 			response=new ResponseEntity<String>("Specialization updated!", HttpStatus.OK);	
 		}catch (SpecializationNotFoundException spece) {
 			throw spece;
@@ -120,8 +113,8 @@ public class SpecializationController {
     	
     	try {
     		
-    		List<Specialization> specializations=specService.getAllSpecializations();
-    		byte[] excelData = excelService.generateExcel(specializations);
+    		List<SpecializationResponseDTO> specializationResponseDTOs=specService.getAllSpecializations();
+    		byte[] excelData = excelService.generateExcel(specializationResponseDTOs);
     		return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=specializations.xlsx")
                     .header(HttpHeaders.CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")

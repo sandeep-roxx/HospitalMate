@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.verma.sandeep.hospital.mate.constant.UserRole;
 import com.verma.sandeep.hospital.mate.entity.User;
-import com.verma.sandeep.hospital.mate.service.impl.IUserMgmtService;
+import com.verma.sandeep.hospital.mate.service.impl.UserMgmtService;
 import com.verma.sandeep.hospital.mate.util.PasswordGeneratorUtil;
 
 @Component
@@ -20,7 +20,7 @@ public class MasterAccountRunner implements CommandLineRunner {
 	private String email;
 	
 	@Autowired
-	private IUserMgmtService userService;
+	private UserMgmtService userService;
 	
 	@Autowired
 	private PasswordGeneratorUtil passwordGenerator;

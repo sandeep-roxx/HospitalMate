@@ -20,7 +20,7 @@ public class PatientServiceImpl implements PatientService {
 	@Autowired
 	private PatientRepository patRepo;
 	@Autowired
-	private IUserMgmtService userService;
+	private UserMgmtService userService;
 	@Autowired
 	private PasswordGeneratorUtil passwordGenerator;
 
