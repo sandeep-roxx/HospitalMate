@@ -1,17 +1,21 @@
 package com.verma.sandeep.hospital.mate.service.impl;
 
-import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.verma.sandeep.hospital.mate.constant.UserRole;
+import com.verma.sandeep.hospital.mate.dto.PatientRequestDTO;
+import com.verma.sandeep.hospital.mate.dto.PatientResponseDTO;
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.entity.User;
 import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
+import com.verma.sandeep.hospital.mate.repository.MedicosRepository;
 import com.verma.sandeep.hospital.mate.repository.PatientRepository;
+import com.verma.sandeep.hospital.mate.repository.TestRepository;
 import com.verma.sandeep.hospital.mate.util.PasswordGeneratorUtil;
 
 @Service
@@ -23,14 +27,21 @@ public class PatientServiceImpl implements PatientService {
 	private UserMgmtService userService;
 	@Autowired
 	private PasswordGeneratorUtil passwordGenerator;
+	@Autowired
+	private ModelMapper modelMapper;
+	@Autowired
+	private MedicosRepository medicosRepo;
+	@Autowired
+	private TestRepository testRepository;
 
 	@Override
-	public Long savePatient(Patient pat) {
-		Long id=patRepo.save(pat).getId();
+	public Long savePatient(PatientRequestDTO patRequestDTO) {
+		Patient patient=modelMapper.map(patRequestDTO, Patient.class);
+		Long id=patRepo.save(patient).getId();
 		if(id!=null) {
 			User user=new User();
-			user.setName(pat.getFirstName()+" "+pat.getLastName());
-			user.setEmail(pat.getEmail());
+			user.setName(patient.getFirstName()+" "+patient.getLastName());
+			user.setEmail(patient.getEmail());
 			user.setPassword(passwordGenerator.generatePassword());
 			user.setRole(UserRole.PATIENT.name());
 			userService.saveUser(user);
@@ -45,27 +56,33 @@ public class PatientServiceImpl implements PatientService {
 	}
 	*/
 	
-	public Page<Patient> getAllPatients(Pageable pageable){
-		return patRepo.findAll(pageable);
+	public Page<PatientResponseDTO> getAllPatients(Pageable pageable){
+		return patRepo.findAll(pageable)
+				                       .map(patient->modelMapper.map(patient,PatientResponseDTO.class));
 		
 	}
 
 	@Override
-	public void remove(Long id) {
-		patRepo.delete(getOnePatient(id));
-
-	}
-
-	@Override
-	public Patient getOnePatient(Long id) {
-		return patRepo.findById(id)
+	public PatientResponseDTO getOnePatient(Long id) {
+		Patient patient=patRepo.findById(id)
 				                       .orElseThrow(()->new PatientsNotFoundException("Patient not exist"));
+		return modelMapper.map(patient, PatientResponseDTO.class);
+	}
+	
+	@Override
+	public void remove(Long id) {
+		patRepo.delete(modelMapper.map(getOnePatient(id), Patient.class));
+
 	}
 
 	@Override
-	public void updatePatient(Patient pat) {
-		if(patRepo.existsById(pat.getId())) {
-			patRepo.save(pat);
+	public void updatePatient(Long id,PatientRequestDTO patRequestDTO) {
+		if(patRepo.existsById(id)) {
+			Patient patient=modelMapper.map(patRequestDTO, Patient.class);
+			patient.setId(id);
+			patient.setPrescriptions(medicosRepo.findByPatientId(id));
+			patient.setTests(testRepository.findByPatientId(id));
+			patRepo.save(patient);
 		}else {
 			throw new PatientsNotFoundException("Patient not exist");
 		}
@@ -73,9 +90,10 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public Patient getOnePatient(String email) {
-		return patRepo.findByEmail(email)
+	public PatientResponseDTO getOnePatient(String email) {
+		Patient patient= patRepo.findByEmail(email)
 				                       .orElseThrow(()-> new PatientsNotFoundException("Patient not found"));
+		return  modelMapper.map(patient, PatientResponseDTO.class);
 	}
 
 	@Override
@@ -85,9 +103,10 @@ public class PatientServiceImpl implements PatientService {
 	
 	//Search patient by email or number
 	@Override
-    public Patient searchPatientByEmailOrMobile(String query) {
-        return patRepo.findByEmailOrMobile(query, query)
+    public PatientResponseDTO searchPatientByEmailOrMobile(String query) {
+		Patient patient= patRepo.findByEmailOrMobile(query, query)
                 .orElseThrow(() -> new PatientsNotFoundException("Patient not found with given email or mobile"));
+		return modelMapper.map(patient, PatientResponseDTO.class);
     }
 
 

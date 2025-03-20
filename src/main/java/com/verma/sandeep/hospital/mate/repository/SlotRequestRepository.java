@@ -26,7 +26,7 @@ public interface SlotRequestRepository extends JpaRepository<SlotRequest, Long> 
 	
 	// Fetch all patients who have paid for an appointment and return as DTO
     @Query("SELECT new com.verma.sandeep.hospital.mate.dto.PatientDTO(p.id, p.firstName, p.lastName, p.gender, p.mobile, p.email) " +
-           "FROM SlotRequest s JOIN s.patient p WHERE s.paymentStatus = 'PAID'")
+           "FROM SlotRequest s INNER JOIN s.patient p WHERE s.paymentStatus = 'PAID'")
     List<PatientDTO> findPaidPatients();
 
 }

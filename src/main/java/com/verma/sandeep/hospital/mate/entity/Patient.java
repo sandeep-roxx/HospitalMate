@@ -1,6 +1,6 @@
 package com.verma.sandeep.hospital.mate.entity;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -77,12 +77,18 @@ public class Patient {
 	@Column(name = "pat_other_details_col")
 	private String otherDetails;
 	
-	@ManyToOne
-	@JoinColumn(name = "ward_id_fk_col")
-	private Ward ward;
+	// Optional Ward Association
+    @ManyToOne
+    @JoinColumn(name = "ward_id_fk_col", nullable = true)
+    private Ward ward;
+	
+	
+	@OneToMany(mappedBy = "patient",
+			                    cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Medicos> prescriptions;
 	
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Medicos> prescriptions = new ArrayList<>();
+    private List<Test> tests;
 
 
 }

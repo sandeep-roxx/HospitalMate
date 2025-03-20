@@ -6,16 +6,17 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.verma.sandeep.hospital.mate.dto.DoctorResponseDTO;
 import com.verma.sandeep.hospital.mate.dto.MedicosDTO;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.entity.Medicos;
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.MedicosNotFoundException;
+import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.MedicosService;
 import com.verma.sandeep.hospital.mate.repository.DoctorRepository;
 import com.verma.sandeep.hospital.mate.repository.MedicosRepository;
+import com.verma.sandeep.hospital.mate.repository.PatientRepository;
 
 @Service
 public class MedicosServiceImpl implements MedicosService {
@@ -25,7 +26,7 @@ public class MedicosServiceImpl implements MedicosService {
 	@Autowired
 	private DoctorRepository  doctorRepository;
 	@Autowired
-	private PatientService patientService;
+	private PatientRepository patientRepository;
 
 	@Override
 	public Long saveMedicos(MedicosDTO medicosDTO) {
@@ -78,7 +79,9 @@ public class MedicosServiceImpl implements MedicosService {
         		                                      
         medicos.setDoctor(doctor);
 
-        Patient patient = patientService.getOnePatient(dto.getPatientId());
+        Patient patient = patientRepository.findById(dto.getPatientId())
+        		                                                          .orElseThrow(()->new PatientsNotFoundException("Patient not found"));
+        
         medicos.setPatient(patient);
 
         return medicos;

@@ -22,12 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.verma.sandeep.hospital.mate.dto.AppointmentDTO;
 import com.verma.sandeep.hospital.mate.dto.DoctorResponseDTO;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
-import com.verma.sandeep.hospital.mate.entity.Doctor;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.service.impl.AppointmentService;
 import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
-import com.verma.sandeep.hospital.mate.service.impl.ISpecializationMgmtService;
 
 
 @RestController

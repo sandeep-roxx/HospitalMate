@@ -1,7 +1,6 @@
 package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import com.verma.sandeep.hospital.mate.dto.SpecializationResponseDTO;
 import com.verma.sandeep.hospital.mate.entity.Specialization;
 import com.verma.sandeep.hospital.mate.exception.SpecializationNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.SpecializationRepository;
-import com.verma.sandeep.hospital.mate.util.MyCollectionUtil;
 
 @Service
 public class SpecializationMgmtService implements ISpecializationMgmtService {

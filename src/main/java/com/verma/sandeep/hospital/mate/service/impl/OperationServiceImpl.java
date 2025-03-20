@@ -13,9 +13,11 @@ import com.verma.sandeep.hospital.mate.entity.Operation;
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.OperationNotFoundException;
+import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.OperationService;
 import com.verma.sandeep.hospital.mate.repository.DoctorRepository;
 import com.verma.sandeep.hospital.mate.repository.OperationRepository;
+import com.verma.sandeep.hospital.mate.repository.PatientRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -27,7 +29,7 @@ public class OperationServiceImpl implements OperationService {
 	@Autowired
 	private DoctorRepository doctorRepository;
 	@Autowired
-	private PatientService patientService;
+	private PatientRepository patientRepository;
 	
 	
 	@Override
@@ -81,9 +83,10 @@ public class OperationServiceImpl implements OperationService {
 	// Convert Entity to DTO
     private Operation convertToEntity(OperationDTO operationDTO) {
     	
-    	Patient patient=patientService.getOnePatient(operationDTO.getPatientId());
+    	Patient patient=patientRepository.findById(operationDTO.getPatientId())
+    			.orElseThrow(()-> new PatientsNotFoundException("Patient not found"));
     	Doctor doctor=doctorRepository.findById(operationDTO.getDoctorId())
-    			                                                      .orElseThrow(()-> new DoctorNotFoundException("Doctor not found"));
+    			.orElseThrow(()-> new DoctorNotFoundException("Doctor not found"));
     	
     	Operation operation = new Operation();
     	 operation.setOid(operationDTO.getOid());

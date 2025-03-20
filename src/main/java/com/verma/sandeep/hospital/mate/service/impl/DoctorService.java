@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.dto.DoctorRequestDTO;
 import com.verma.sandeep.hospital.mate.dto.DoctorResponseDTO;
 
@@ -19,7 +18,6 @@ public interface DoctorService {
 	void updateDoctor(Long id,DoctorRequestDTO doctorRequestDTO);
 	List<DoctorResponseDTO> findDoctorBySpecId(Long specId);
 	DoctorResponseDTO findDoctorBySpecIdAndDoctorId(Long specId, Long doctorId);
-	List<DoctorDTO> getAllDoctorsDTO();
 	Long getDoctorCount();
 
 }

@@ -51,7 +51,9 @@ public class Ward {
     private String description;
 
     // Relationship with Patient (One Ward can have multiple Patients)
-    @OneToMany(mappedBy = "ward", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ward", cascade = CascadeType.REMOVE,
+    		                   orphanRemoval = true, fetch = FetchType.LAZY
+    		                   )
     private List<Patient> patients;
 
     @OneToOne

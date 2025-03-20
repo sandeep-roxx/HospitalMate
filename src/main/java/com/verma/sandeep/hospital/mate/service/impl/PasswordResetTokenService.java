@@ -2,7 +2,7 @@ package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.util.Optional;
 
-public interface IPasswordResetTokenService {
+public interface PasswordResetTokenService {
 	
 	 public String generateResetToken(String email);
 	 public boolean isValidToken(String token);

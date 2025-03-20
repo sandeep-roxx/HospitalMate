@@ -12,7 +12,7 @@ import com.verma.sandeep.hospital.mate.entity.PasswordResetToken;
 import com.verma.sandeep.hospital.mate.repository.PasswordResetTokenRepository;
 
 @Service
-public class PasswordResetTokenServiceImpl implements IPasswordResetTokenService {
+public class PasswordResetTokenServiceImpl implements PasswordResetTokenService {
 	
 	@Autowired
 	private PasswordResetTokenRepository tokenRepo;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.entity.User;
-import com.verma.sandeep.hospital.mate.service.impl.IPasswordResetTokenService;
+import com.verma.sandeep.hospital.mate.service.impl.PasswordResetTokenService;
 import com.verma.sandeep.hospital.mate.service.impl.UserMgmtService;
 
 @RestController
@@ -21,7 +21,7 @@ public class PasswordResetTokenController {
 	@Autowired
 	private UserMgmtService userService;
 	@Autowired
-	private IPasswordResetTokenService resetService;
+	private PasswordResetTokenService resetService;
 	
 	//Request Password Reset (Send Email)
     @PostMapping("/forgot-password")

@@ -2,7 +2,6 @@ package com.verma.sandeep.hospital.mate.service.impl;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.verma.sandeep.hospital.mate.constant.UserRole;
-import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.dto.DoctorRequestDTO;
 import com.verma.sandeep.hospital.mate.dto.DoctorResponseDTO;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
@@ -20,7 +18,6 @@ import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.SpecializationNotFoundException;
 import com.verma.sandeep.hospital.mate.repository.DoctorRepository;
 import com.verma.sandeep.hospital.mate.repository.SpecializationRepository;
-import com.verma.sandeep.hospital.mate.util.MyCollectionUtil;
 import com.verma.sandeep.hospital.mate.util.PasswordGeneratorUtil;
 
 @Service
@@ -38,7 +35,9 @@ public class DoctorServiceImpl implements DoctorService {
 	private S3FileService s3FileService; 
 
 	@Override
-	public Long saveDoctor(DoctorRequestDTO doctorRequestDTO,MultipartFile file) throws IOException {
+	public Long saveDoctor(DoctorRequestDTO doctorRequestDTO,
+			                                       MultipartFile file) throws IOException 
+	{
 		Doctor doctor=mapToDoctor(doctorRequestDTO);
 		// Upload file to S3 and get the URL
 		 String fileUrl = s3FileService.uploadFile(file, "doctor-photos");
@@ -111,12 +110,6 @@ public class DoctorServiceImpl implements DoctorService {
 		return mapToDoctorResponseDTO(doctor);
 	}
 	
-
-	//Get doctor by id, name and specialization
-	@Override
-	public List<DoctorDTO> getAllDoctorsDTO() {
-		return docRepo.getAllDoctorsDTO();
-	}
 	
 	private DoctorResponseDTO mapToDoctorResponseDTO(Doctor doctor) {
         return new DoctorResponseDTO(

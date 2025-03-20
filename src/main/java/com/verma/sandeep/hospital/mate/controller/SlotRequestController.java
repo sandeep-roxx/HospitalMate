@@ -19,9 +19,10 @@ import com.verma.sandeep.hospital.mate.constant.SlotStatus;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
+import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
 import com.verma.sandeep.hospital.mate.payment.RazorpayService;
+import com.verma.sandeep.hospital.mate.repository.PatientRepository;
 import com.verma.sandeep.hospital.mate.service.impl.AppointmentService;
-import com.verma.sandeep.hospital.mate.service.impl.PatientService;
 import com.verma.sandeep.hospital.mate.service.impl.SlotRequestService;
 
 @RestController
@@ -31,12 +32,11 @@ public class SlotRequestController {
 	@Autowired
 	private AppointmentService apmtService;
 	@Autowired
-	private PatientService patientService; 
-	@Autowired
 	private SlotRequestService slotService;
-	
 	@Autowired
 	private RazorpayService razorpayService;
+	@Autowired
+	private PatientRepository patientRepository;
 	
 	//Patient can book a slot per appointment
 	@GetMapping("/book/{apmtId}")
@@ -47,7 +47,8 @@ public class SlotRequestController {
 		//Get logged in patient email(username)
 		String email=principal.getName();
 		Appointment aptm=apmtService.getOneAppointment(apmtId);
-		Patient patient=patientService.getOnePatient(email);
+		Patient patient=patientRepository.findByEmail(email)
+				                                                        .orElseThrow(()->new PatientsNotFoundException(email));
 		//Create slotRequest object
 		SlotRequest slot=new SlotRequest();
 		slot.setAppointment(aptm);

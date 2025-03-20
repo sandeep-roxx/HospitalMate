@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.dto.PatientDTO;
 import com.verma.sandeep.hospital.mate.entity.Test;
 import com.verma.sandeep.hospital.mate.exception.TestNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.TestService;
-import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
 import com.verma.sandeep.hospital.mate.service.impl.SlotRequestService;
 
 @RestController
@@ -30,8 +28,6 @@ public class TestController {
 	private TestService testService;
 	@Autowired
 	 private SlotRequestService slotRequestService;
-	@Autowired
-	private DoctorService doctorService;
 	
 	 @PostMapping("/add")
 	    public ResponseEntity<?> addTest(@RequestBody Test test) {
@@ -111,12 +107,6 @@ public class TestController {
 		   return ResponseEntity.ok(slotRequestService.fetchPaidPatients());
 	   }
 	   
-	      // doctor drop-down
-			@GetMapping("/doctor/dropdown")
-		    public ResponseEntity<List<DoctorDTO>> searchDoctor() {
-				List<DoctorDTO> docList = doctorService.getAllDoctorsDTO();
-		        return ResponseEntity.ok(docList);
-		    }
 		   
 
 }

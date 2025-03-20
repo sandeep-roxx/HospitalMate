@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.entity.Doctor;
 
 @Repository
@@ -23,7 +22,5 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	Optional<Doctor> findDoctorBySpecIdAndDoctorId(@Param("specId") Long specId, @Param("doctorId") Long doctorId);
 
 	
-	 @Query("SELECT new com.verma.sandeep.hospital.mate.dto.DoctorDTO(d.id, d.firstName, d.lastName, d.specialization.name) FROM Doctor d")
-	    List<DoctorDTO> getAllDoctorsDTO();
 }
 

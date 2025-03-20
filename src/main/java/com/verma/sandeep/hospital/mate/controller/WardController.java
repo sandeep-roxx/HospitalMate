@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.verma.sandeep.hospital.mate.constant.WardStatus;
-import com.verma.sandeep.hospital.mate.dto.DoctorDTO;
 import com.verma.sandeep.hospital.mate.dto.PatientDTO;
 import com.verma.sandeep.hospital.mate.dto.WardDTO;
 import com.verma.sandeep.hospital.mate.exception.WardNotFoundException;
 import com.verma.sandeep.hospital.mate.iservice.WardService;
-import com.verma.sandeep.hospital.mate.service.impl.DoctorService;
 import com.verma.sandeep.hospital.mate.service.impl.SlotRequestService;
 
 @RestController
@@ -29,12 +27,8 @@ public class WardController {
 	
 	@Autowired
     private SlotRequestService slotRequestService;
-	
 	@Autowired
     private WardService wardService;
-	
-	@Autowired
-	private DoctorService doctorService;
 
     @PostMapping("/allocate")
     public ResponseEntity<String> allocateWard(@RequestBody WardDTO wardDTO) {
@@ -50,7 +44,7 @@ public class WardController {
 	}
     }
     
-    //Add more patient in same ward
+    //Add more patient in a ward
     @PutMapping("/addPatients/{wardId}")
     public ResponseEntity<String> addPatientsToWard(
     		@PathVariable Long wardId,
@@ -109,11 +103,5 @@ public class WardController {
         return ResponseEntity.ok(patients);
     }
 	
-	// doctor drop-down
-		@GetMapping("/doctor/dropdown")
-	    public ResponseEntity<List<DoctorDTO>> searchDoctor() {
-			List<DoctorDTO> docList = doctorService.getAllDoctorsDTO();
-	        return ResponseEntity.ok(docList);
-	    }
 
 }

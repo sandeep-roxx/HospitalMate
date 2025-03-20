@@ -1,7 +1,5 @@
 package com.verma.sandeep.hospital.mate.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.verma.sandeep.hospital.mate.entity.Patient;
+import com.verma.sandeep.hospital.mate.dto.PatientRequestDTO;
+import com.verma.sandeep.hospital.mate.dto.PatientResponseDTO;
 import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
 import com.verma.sandeep.hospital.mate.service.impl.PatientService;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/patient")
@@ -32,10 +29,10 @@ public class PatientController {
 	private PatientService patientService;
 	
 	@PostMapping("/register")
-    public ResponseEntity<String> registerPatient(@Valid @RequestBody Patient patient) {
+    public ResponseEntity<String> registerPatient(@RequestBody PatientRequestDTO patientRequestDTO) {
 		ResponseEntity<String> response=null;
 		try {
-			 Long id = patientService.savePatient(patient);
+			 Long id = patientService.savePatient(patientRequestDTO);
 		     response=new ResponseEntity<String>("Patient " + id + " saved", HttpStatus.CREATED);
 		}catch (Exception e) {
 			throw e;
@@ -51,23 +48,23 @@ public class PatientController {
     */
 	
 	@GetMapping("/all")
-    public ResponseEntity<Page<Patient> > getAllPatients(
+    public ResponseEntity<Page<PatientResponseDTO> > getAllPatients(
     		 @RequestParam(defaultValue = "0") int page,  //page number.
              @RequestParam(defaultValue = "5") int size  //page size
     		) 
 	{
 		Pageable pageable = PageRequest.of(page, size);
-        Page<Patient> patients = patientService.getAllPatients(pageable);
-        return new ResponseEntity<>(patients, HttpStatus.OK);
+        Page<PatientResponseDTO> patientDTOs = patientService.getAllPatients(pageable);
+        return new ResponseEntity<>(patientDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
+    public ResponseEntity<PatientResponseDTO> getPatientById(@PathVariable Long id) {
     	
-    	ResponseEntity<Patient> response=null;
+    	ResponseEntity<PatientResponseDTO> response=null;
         try {
-            Patient patient = patientService.getOnePatient(id);
-            response= new ResponseEntity<>(patient, HttpStatus.OK);
+            PatientResponseDTO patientDTOs = patientService.getOnePatient(id);
+            response= new ResponseEntity<PatientResponseDTO>(patientDTOs, HttpStatus.OK);
         } catch (PatientsNotFoundException e) {
             throw e;
         }
@@ -75,12 +72,12 @@ public class PatientController {
     }
 
     @GetMapping("/findByEmail")
-    public ResponseEntity<Patient> getPatientByEmail(@RequestParam String email) {
+    public ResponseEntity<PatientResponseDTO> getPatientByEmail(@RequestParam String email) {
     	
-    	ResponseEntity<Patient> response=null;
+    	ResponseEntity<PatientResponseDTO> response=null;
         try {
-            Patient patient = patientService.getOnePatient(email);
-            response=new ResponseEntity<Patient>(patient, HttpStatus.OK);
+            PatientResponseDTO patientDTOs = patientService.getOnePatient(email);
+            response=new ResponseEntity<PatientResponseDTO>(patientDTOs, HttpStatus.OK);
         } catch (PatientsNotFoundException e) {
             throw e;
         }
@@ -100,12 +97,14 @@ public class PatientController {
         return response;
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<String> updatePatient(@Valid @RequestBody Patient patient) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updatePatient(@PathVariable Long id,
+    		                                                                                 @RequestBody PatientRequestDTO patientRequestDTO) 
+    {
     	
     	ResponseEntity<String> response=null;
         try {
-            patientService.updatePatient(patient);
+            patientService.updatePatient(id,patientRequestDTO);
             response=new ResponseEntity<String>("Patient updated successfully!", HttpStatus.OK);
         } catch (PatientsNotFoundException e) {
             throw e;
