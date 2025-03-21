@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.verma.sandeep.hospital.mate.dto.AppointmentDTO;
+import com.verma.sandeep.hospital.mate.dto.AppointmentRequestDTO;
+import com.verma.sandeep.hospital.mate.dto.AppointmentResponseDTO;
 import com.verma.sandeep.hospital.mate.dto.DoctorResponseDTO;
-import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.DoctorNotFoundException;
 import com.verma.sandeep.hospital.mate.service.impl.AppointmentService;
@@ -41,25 +41,28 @@ public class AppointmentController {
 
 	// Create an appointment
 	@PostMapping("/register")
-	public ResponseEntity<String> saveAppointment(@RequestBody Appointment appointment) {
-		Long id = appointmentService.saveAppointment(appointment);
+	public ResponseEntity<String> saveAppointment(
+			@RequestBody AppointmentRequestDTO appRequestDTO
+			) 
+	{
+		Long id = appointmentService.saveAppointment(appRequestDTO);
 		return new ResponseEntity<>("Appointment with ID " + id + " created successfully!", HttpStatus.CREATED);
 	}
 
 	// Get all appointments
 	@GetMapping("/all")
-	public ResponseEntity<List<Appointment>> getAllAppointments() {
-		List<Appointment> list = appointmentService.getAllAppointments();
-		return new ResponseEntity<>(list, HttpStatus.OK);
+	public ResponseEntity<List<AppointmentResponseDTO>> getAllAppointments() {
+		List<AppointmentResponseDTO> responseDTOs = appointmentService.getAllAppointments();
+		return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
 	}
 
 	// Get appointment by ID
 	@GetMapping("find/{id}")
-	public ResponseEntity<Appointment> getAppointment(@PathVariable Long id) {
-		ResponseEntity<Appointment> response=null;
+	public ResponseEntity<AppointmentResponseDTO> getAppointment(@PathVariable Long id) {
+		ResponseEntity<AppointmentResponseDTO> response=null;
 		try {
-			Appointment appointment = appointmentService.getOneAppointment(id);
-			response=new ResponseEntity<Appointment>(appointment, HttpStatus.OK);
+			AppointmentResponseDTO appResponseDTO = appointmentService.getOneAppointment(id);
+			response=new ResponseEntity<AppointmentResponseDTO>(appResponseDTO, HttpStatus.OK);
 		}catch (AppointmentNotFoundException e) {
 			throw e;
 		}
@@ -68,8 +71,12 @@ public class AppointmentController {
 
 	// Update appointment
 	@PutMapping("/update")
-	public ResponseEntity<String> updateAppointment(@RequestBody Appointment appointment) {
-		appointmentService.updateAppointment(appointment);
+	public ResponseEntity<String> updateAppointment(
+			@PathVariable Long id,
+			@RequestBody AppointmentRequestDTO appRequestDTO
+			) 
+	{
+		appointmentService.updateAppointment(id,appRequestDTO);
 		return new ResponseEntity<>("Appointment updated successfully!", HttpStatus.OK);
 	}
 
@@ -116,7 +123,7 @@ public class AppointmentController {
 	 public ResponseEntity<Map<String,Object>> viewSlots(@PathVariable Long doctorId){
 		 
 		 Map<String,Object> response=new HashMap<>();
-		 List<AppointmentDTO> appRespList = appointmentService.getAppointmentByDoctor(doctorId);
+		 List<AppointmentResponseDTO> appRespList = appointmentService.getAppointmentByDoctor(doctorId);
 		 String message="Showing result for "+docService.getOneDoctor(doctorId);
 		 response.put("appointment", appRespList);
 		 response.put("message", message);
@@ -126,14 +133,14 @@ public class AppointmentController {
 
 	// Fetch appointments for the logged-in doctor
 	@GetMapping("/doctor/email")
-	public ResponseEntity<List<AppointmentDTO>> getAppointmentsByDoctorEmail(
+	public ResponseEntity<List<AppointmentResponseDTO>> getAppointmentsByDoctorEmail(
 			                                                                  Principal principal
 			                                                                 )
 	{
 		//Get current login username(email)
 		String email=principal.getName();
-		List<AppointmentDTO> appointments = appointmentService.getAppoinmentsByDoctorEmail(email);
-		return new ResponseEntity<>(appointments, HttpStatus.OK);
+		List<AppointmentResponseDTO> appResponseDTOs = appointmentService.getAppoinmentsByDoctorEmail(email);
+		return new ResponseEntity<>(appResponseDTOs, HttpStatus.OK);
 	}
 
 	// Update slot count for an appointment

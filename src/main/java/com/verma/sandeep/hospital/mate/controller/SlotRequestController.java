@@ -19,8 +19,10 @@ import com.verma.sandeep.hospital.mate.constant.SlotStatus;
 import com.verma.sandeep.hospital.mate.entity.Appointment;
 import com.verma.sandeep.hospital.mate.entity.Patient;
 import com.verma.sandeep.hospital.mate.entity.SlotRequest;
+import com.verma.sandeep.hospital.mate.exception.AppointmentNotFoundException;
 import com.verma.sandeep.hospital.mate.exception.PatientsNotFoundException;
 import com.verma.sandeep.hospital.mate.payment.RazorpayService;
+import com.verma.sandeep.hospital.mate.repository.AppointmentRepository;
 import com.verma.sandeep.hospital.mate.repository.PatientRepository;
 import com.verma.sandeep.hospital.mate.service.impl.AppointmentService;
 import com.verma.sandeep.hospital.mate.service.impl.SlotRequestService;
@@ -37,16 +39,20 @@ public class SlotRequestController {
 	private RazorpayService razorpayService;
 	@Autowired
 	private PatientRepository patientRepository;
+	@Autowired
+	private AppointmentRepository appRepo;
 	
 	//Patient can book a slot per appointment
 	@GetMapping("/book/{apmtId}")
-	public ResponseEntity<String> bookSlot(@PathVariable Long apmtId,
-			                                                                       Principal principal
-			                                                                        )
+	public ResponseEntity<String> bookSlot(
+			@PathVariable Long apmtId,
+			    Principal principal                                                                     
+			)
 	{
-		//Get logged in patient email(username)
+		//Get logged in patient's email(username)
 		String email=principal.getName();
-		Appointment aptm=apmtService.getOneAppointment(apmtId);
+		Appointment aptm= appRepo.findById(apmtId)
+				.orElseThrow(()->new AppointmentNotFoundException("Appointment not found"));
 		Patient patient=patientRepository.findByEmail(email)
 				                                                        .orElseThrow(()->new PatientsNotFoundException(email));
 		//Create slotRequest object
